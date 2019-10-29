@@ -1,61 +1,46 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    {% block head %}
-    {% endblock head %}
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
-
-    <title> Your to do list! </title>
-</head>
-<body>
-    <header class="site-header">
-      <nav class="navbar navbar-dark bg-primary fixed-top">
-
-        <div class="container">
-          <a class="navbar-brand mr-4" href="/">Maya's To Do App </a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-        </div>
+<html lang="en">
+  <head>
+      <!-- meta tags declaring character encoding and scaling -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <!-- link Bootstrap CSS and list to main.css file -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+      <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+      <title> Your Restaurant Review Program! </title>
+  </head>
+  <body>
+      <!--Navbar style strip at top with title-->
+      <header class="site-header">
+      <nav class="navbar navbar-dark bg-primary fixed-top bg-danger">
+        <span class="navbar-brand mb-0 h1"> Review Site </span>
       </nav>
-    </header>
-    <main role="main" class="container">
-      {% block login %}
-      <div class="row">
+      </header>
+      <main class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="content-section">
+              <h3> Restaurant Review Site</h3>
+              <p class='text-muted'>Welcome to your review site! </p>
+                <ul class="list-group">
+                  <!-- items listed in the left hand menu-->
+                  <li><a class="nav-item nav-link" href="/index">Login</a> </li>
+                  <li><a class="nav-item nav-link" href="/index">Create an Account</a></li>
+                  <li><a class="nav-item nav-link" href="/index">Post a Review</a></li>
+                  <li><a class="nav-item nav-link" href="/index">View all Reviews</a></li>
+                  <li><a class="nav-item nav-link" href="/index">View your Reviews</a></li>
+                </ul>
 
-        <div class="col-md-4">
-          <div class="content-section">
-            <h3>Your Options</h3>
-            <p class='text-muted'>Welcome to your to do list!
-              <ul class="list-group">
-                <a class="nav-item nav-link" href="/create">Create a new Recommendation</a>
-                <a class="nav-item nav-link" href="/view_all">View All Recommendations</a>
-                <a class="nav-item nav-link" href="/view_location" onclick = "retrieve_locations()" >View By Location</a>
-
-              </ul>
-            </p>
+            </div>
+          </div>
+          <div class="col-md-8">
+            {% block content %}{% endblock %}
           </div>
 
-
         </div>
-      {% endblock %}
-        <div class="col-md-8">
-          {% block content %}{% endblock %}
-        </div>
-      </div>
-    </main>
-
-    <script type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-
-
-</body>
+      </main>
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
 </html>

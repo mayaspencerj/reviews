@@ -1,8 +1,12 @@
 from app import db
 from datetime import datetime
+from flask_login import UserMixin
+from app import login
+
+
 
 #DECLARING MODEL, MY ITEMS TABLE TO HOLD TO DO ITEMS
-class Accounts(db.Model):
+class Accounts(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(30), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -23,3 +27,5 @@ class Items(db.Model):
         self.content = content
         self.location_long = location_long
         self.location_lat = location_lat
+
+
