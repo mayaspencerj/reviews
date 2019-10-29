@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% block head %}
+    {% endblock head %}
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+
+    <title> Your to do list! </title>
+</head>
+<body>
+    <header class="site-header">
+      <nav class="navbar navbar-dark bg-primary fixed-top">
+
+        <div class="container">
+          <a class="navbar-brand mr-4" href="/">Maya's To Do App </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+      </nav>
+    </header>
+    <main role="main" class="container">
+      {% block login %}
+      <div class="row">
+
+        <div class="col-md-4">
+          <div class="content-section">
+            <h3>Your Options</h3>
+            <p class='text-muted'>Welcome to your to do list!
+              <ul class="list-group">
+                <a class="nav-item nav-link" href="/create">Create a new Recommendation</a>
+                <a class="nav-item nav-link" href="/view_all">View All Recommendations</a>
+                <a class="nav-item nav-link" href="/view_location" onclick = "retrieve_locations()" >View By Location</a>
+
+              </ul>
+            </p>
+          </div>
+
+
+        </div>
+      {% endblock %}
+        <div class="col-md-8">
+          {% block content %}{% endblock %}
+        </div>
+      </div>
+    </main>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+
+</body>
+</html>
