@@ -13,6 +13,11 @@ class Accounts(UserMixin, db.Model):
     password = db.Column(db.String(60), nullable=False)
 #   posts = db.relationship('Items', backref='author', lazy=True)
 
+
+@login.user_loader
+def load_user(id):
+    return User.query.get(int(id))
+
 class Items(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     restaurant = db.Column(db.String(20), unique=False, nullable=False)
