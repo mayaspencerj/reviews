@@ -24,11 +24,20 @@
               <p class='text-muted'>Welcome to your review site! </p>
                 <ul class="list-group">
                   <!-- items listed in the left hand menu-->
-                  <li><a class="nav-item nav-link" href="/index">Login</a> </li>
+                
+                  <li><a class="nav-item nav-link" href ="{{ url_for('login') }}">Login</a> </li>
+
                   <li><a class="nav-item nav-link" href="/index">Create an Account</a></li>
+
                   <li><a class="nav-item nav-link" href="/index">Post a Review</a></li>
+
                   <li><a class="nav-item nav-link" href="/index">View all Reviews</a></li>
+
                   <li><a class="nav-item nav-link" href="/index">View your Reviews</a></li>
+
+                  <li><a class="nav-item nav-link" href="{{ url_for('logout') }}" >Logout</a></li>
+
+
                 </ul>
 
             </div>
