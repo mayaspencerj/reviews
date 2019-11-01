@@ -13,7 +13,7 @@ class Accounts(UserMixin, db.Model):
 
 @login.user_loader
 def load_user(id):
-    return User.query.get(int(id))
+    return Accounts.query.get(int(id))
 
 class Items(db.Model):
     id = db.Column(db.Integer, primary_key=True)
