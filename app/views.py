@@ -28,7 +28,8 @@ def login():
             if user is not None and (user.password == request.form['password']):
             #if user is not None and Bcrypt.check_password_hash(user.password, request.form['password']):
                 login_user(user)
-                flash('You were logged in. Go Crazy.')
+                session['logged_in'] = True
+                flash('You were logged in.')
                 return redirect(url_for('index'))
             else:
                 error = 'Invalid username or password.'
@@ -51,6 +52,8 @@ def register():
     return render_template('register.html', form=form)
 
 @app.route('/logout')
+@login_required
 def logout():
-    logout_user()
-    return redirect(url_for('index'))
+        session.pop('logged_in', None)
+        flash('You were logged out.')
+        return redirect(url_for('login'))
