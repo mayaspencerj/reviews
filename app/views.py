@@ -8,6 +8,7 @@ from .forms import PostForm, RegisterForm, LoginForm
 from .models import db, Items, Accounts
 import sys, json, requests, os
 from flask_login import current_user, login_user, logout_user, login_required
+from flask_bcrypt import Bcrypt
 
 
 
@@ -20,17 +21,15 @@ def index():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
-    form = LoginForm()
+    form = LoginForm(request.form)
     if request.method == 'POST':
         if form.validate_on_submit():
-            user = Accounts.query.filter_by(username=form.username).first()
-            if user is not None and bcrypt.check_password_hash(
-                user.password, form['password']
-            ):
+            user = Accounts.query.filter_by(username=request.form['username']).first()
+            if user is not None and (user.password == request.form['password']):
+            #if user is not None and Bcrypt.check_password_hash(user.password, request.form['password']):
                 login_user(user)
                 flash('You were logged in. Go Crazy.')
                 return redirect(url_for('index'))
-
             else:
                 error = 'Invalid username or password.'
     return render_template('login.html', form=form, error=error)

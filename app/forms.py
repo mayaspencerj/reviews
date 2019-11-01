@@ -23,10 +23,10 @@ class RegisterForm(FlaskForm):
     def validate_email(self, email):
         account = Accounts.query.filter_by(email=email.data).first()
         if account:
-            raise ValidationError('An account with that username already exists')
+            raise ValidationError('An account with that email already exists')
 
 class LoginForm(FlaskForm):
     username = StringField('username', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
+    password = PasswordField('password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
