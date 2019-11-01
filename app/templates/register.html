@@ -1,14 +1,25 @@
 
 {% extends "index.html" %}
 {% block content %}
+<h1>Please Register</h1>
+<br>
 <form class="form-signin" role="form" method="post" action="">
-  <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
   {{ form.csrf_token }}
   <p>
     {{ form.username(placeholder="username") }}
     <span class="error">
       {% if form.username.errors %}
         {% for error in form.username.errors %}
+          {{ error }}
+        {% endfor %}
+      {% endif %}
+    </span>
+  </p>
+  <p>
+  {{ form.email(placeholder="email") }}
+    <span class="error">
+      {% if form.email.errors %}
+        {% for error in form.email.errors %}
           {{ error }}
         {% endfor %}
       {% endif %}
@@ -24,6 +35,17 @@
       {% endif %}
     </span>
   </p>
-  <button class="btn btn-sm btn-success" type="submit">Sign in</button>
+  <p>
+  {{ form.confirm_password(placeholder="Confirm Password") }}
+    <span class="error">
+      {% if form.confirm_password.errors %}
+        {% for error in form.confirm_password.errors %}
+          {{ error }}
+        {% endfor %}
+      {% endif %}
+    </span>
+  </p>
+  <button class="btn btn-sm btn-success" type="submit">Register!</button>
 </form>
+
 {% endblock content %}
