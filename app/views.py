@@ -9,7 +9,7 @@ from .models import db, Items, Accounts
 import sys, json, requests, os
 from flask_login import current_user, login_user, logout_user, login_required
 from flask_bcrypt import Bcrypt
-
+from app import login_man
 
 
 @app.route("/")
@@ -31,6 +31,8 @@ def login():
                 session['logged_in'] = True
                 flash('You were logged in.')
                 return redirect(url_for('index'))
+            #login_user(user, remember=form.remember_me.data)
+
             else:
                 flash('Invalid username or password.')
         else:
@@ -50,7 +52,7 @@ def register():
         db.session.add(user)
         db.session.commit()
         login_user(user)
-        return redirect(url_for('index'))
+        return redirect(url_for('post_rev'))
 
     return render_template('register.html', form=form)
 
@@ -61,8 +63,19 @@ def logout():
         flash('You were logged out.')
         return redirect(url_for('login'))
 
-@app.route('/post_rev')
+@app.route('/post_rev', methods=['GET','POST'])
 @login_required
+@login_man.user_loader
 def post_review():
     form = PostForm()
-    return render_template('post_rev.html',form=form)
+    if form.validate_on_submit():
+        lat = session.get("lat", None)
+        long = session.get("long", None)
+        user_ids = Accounts.get_user(id)
+        post = Items(restaurant=form.restaurant.data, content=form.content.data, location_lat=lat, location_long=long, user_id=user_ids)
+        db.session.add(post)
+        db.session.commit()
+        flash('Your post has been created!', 'success')
+        session.clear()
+        return redirect(url_for('login.html'))
+    return render_template('post_rev.html', title='New Post',form=form, legend='New Post')

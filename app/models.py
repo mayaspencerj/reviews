@@ -1,7 +1,7 @@
 from app import db
 from datetime import datetime
 from flask_login import UserMixin
-from app import login
+
 
 #DECLARING MODEL, MY ITEMS TABLE TO HOLD TO DO ITEMS
 class Accounts(UserMixin, db.Model):
@@ -10,10 +10,6 @@ class Accounts(UserMixin, db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
 #   posts = db.relationship('Items', backref='author', lazy=True)
-
-@login.user_loader
-def load_user(id):
-    return Accounts.query.get(int(id))
 
 class Items(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -29,3 +25,21 @@ class Items(db.Model):
         self.content = content
         self.location_long = location_long
         self.location_lat = location_lat
+
+    @property
+    def is_authenticated(self):
+        return True
+
+    @property
+    def is_active(self):
+        return True
+
+    @property
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        try:
+            return unicode(self.id)  # python 2
+        except NameError:
+            return str(self.id)
