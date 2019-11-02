@@ -32,8 +32,10 @@ def login():
                 flash('You were logged in.')
                 return redirect(url_for('index'))
             else:
-                error = 'Invalid username or password.'
-    return render_template('login.html', form=form, error=error)
+                flash('Invalid username or password.')
+        else:
+            flash('Sorry, no account located')
+    return render_template('login.html', form=form)
 
 
 @app.route('/register/', methods=['GET', 'POST'])
@@ -49,6 +51,7 @@ def register():
         db.session.commit()
         login_user(user)
         return redirect(url_for('index'))
+
     return render_template('register.html', form=form)
 
 @app.route('/logout')

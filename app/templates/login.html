@@ -25,5 +25,9 @@
     </span>
   </p>
   <button class="btn btn-sm btn-success" type="submit">Sign in</button>
+  {% for message in get_flashed_messages() %}
+        {{ message }}
+      {% endfor %}
+
 </form>
 {% endblock content %}
