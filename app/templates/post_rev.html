@@ -1,0 +1,47 @@
+<!-- Extends general layout from index html, only content is different  -->
+<!-- this page has the form created in forms.py and uses requests to transmit the entered data-->
+{% extends "index.html" %}
+{% block content %}
+    <div class="content-section">
+        <form method="POST" action="/create">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4"> Post a Review! </legend>
+                <!-- restaurant FIELD -->
+                <div class="form-group">
+                    {{ form.restaurant.label(class="form-control-label") }}
+                    {% if form.restaurant.errors %}
+                        {{ form.restaurant(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.restaurant.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.restaurant(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <!-- CONTENT FIELD -->
+                <div class="form-group">
+                    {{ form.content.label(class="form-control-label") }}
+                    {% if form.content.errors %}
+                        {{ form.content(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.content.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.content(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <!-- SUBMIT / LOCATION BUTTON ON FORM-->
+            <div class="form-group">
+                {{ form.location (class="btn btn-outline-info") }}
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </div>
+
+{% endblock content %}

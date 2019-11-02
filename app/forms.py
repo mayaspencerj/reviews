@@ -6,7 +6,9 @@ from .models import db, Items, Accounts
 class PostForm(FlaskForm):
     restaurant = StringField('Restaurant', validators=[DataRequired(), Length(min=2, max=50)])
     content = StringField('Review', validators=[DataRequired(), Length(min=2, max=10000)])
+    location = SubmitField('Import Location')
     submit = SubmitField('Publish Review')
+
 
 class RegisterForm(FlaskForm):
     username = StringField('Username',validators=[DataRequired(), Length(min=2, max=20)])

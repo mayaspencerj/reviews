@@ -60,3 +60,9 @@ def logout():
         session.pop('logged_in', None)
         flash('You were logged out.')
         return redirect(url_for('login'))
+
+@app.route('/post_rev')
+@login_required
+def post_review():
+    form = PostForm()
+    return render_template('post_rev.html',form=form)
