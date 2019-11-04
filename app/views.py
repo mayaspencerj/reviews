@@ -30,6 +30,9 @@ def login():
                 login_user(user)
                 session['logged_in'] = True
                 flash('You were logged in.')
+
+                with open('users.txt', 'w+') as f:
+                    f.write(str(Accounts.query.get(request.form['username'])))
                 return redirect(url_for('index'))
             #login_user(user, remember=form.remember_me.data)
 
@@ -52,8 +55,7 @@ def register():
         db.session.add(user)
         db.session.commit()
         login_user(user)
-        return redirect(url_for('post_rev'))
-
+        return redirect(url_for('post_rev.html'))
     return render_template('register.html', form=form)
 
 @app.route('/logout')
@@ -65,13 +67,12 @@ def logout():
 
 @app.route('/post_rev', methods=['GET','POST'])
 @login_required
-@login_man.user_loader
 def post_review():
     form = PostForm()
     if form.validate_on_submit():
         lat = session.get("lat", None)
         long = session.get("long", None)
-        user_ids = Accounts.get_user(id)
+        user_ids = session["user_id"]
         post = Items(restaurant=form.restaurant.data, content=form.content.data, location_lat=lat, location_long=long, user_id=user_ids)
         db.session.add(post)
         db.session.commit()
@@ -79,3 +80,10 @@ def post_review():
         session.clear()
         return redirect(url_for('login.html'))
     return render_template('post_rev.html', title='New Post',form=form, legend='New Post')
+
+
+@login_man.user_loader
+def load_user(user_id):
+    with open('user.txt', 'w+') as f:
+        f.write(str(Accounts.query.get(user_id)))
+    return Accounts.query.get(user_id)

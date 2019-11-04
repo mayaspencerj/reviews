@@ -20,11 +20,12 @@ class Items(db.Model):
     location_lat = db.Column(db.String(120), unique=False, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('accounts.id'), nullable=False)
 
-    def __init__(self,restaurant,content,location_long, location_lat):
+    def __init__(self,restaurant,content,location_long, location_lat,user_id):
         self.restaurant = restaurant
         self.content = content
         self.location_long = location_long
         self.location_lat = location_lat
+        self.user_id = user_id
 
     @property
     def is_authenticated(self):
