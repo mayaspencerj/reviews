@@ -85,7 +85,17 @@ def post_review():
 @app.route("/view_all")
 def view_all():
     posts = Items.query.order_by(Items.date_posted.desc()).all()
-    return render_template('view_all.html', posts=posts)
+    for item in posts:
+        id_number= session["user_id"]
+        name = Accounts.username.query.values(id_number)
+        #session.query(SomeModel).values('id', 'user')
+    #    GET user_id
+    #    name =Items.query.get(user_id)
+    #    Items.query.filter_by(username=username).first_or_404(description='There is no data with {}'.
+    #    QUERY accountswith user_id for username
+    #    save name
+
+        return render_template('view_all.html', posts=posts, name=name)
 
 
 @login_man.user_loader
