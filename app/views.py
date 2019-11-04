@@ -33,7 +33,7 @@ def login():
 
                 with open('users.txt', 'w+') as f:
                     f.write(str(Accounts.query.get(request.form['username'])))
-                return redirect(url_for('index'))
+                return redirect(url_for('view_all'))
             #login_user(user, remember=form.remember_me.data)
 
             else:
@@ -78,12 +78,16 @@ def post_review():
         db.session.commit()
         flash('Your post has been created!', 'success')
         session.clear()
-        return redirect(url_for('login.html'))
+        return redirect(url_for('view_all'))
     return render_template('post_rev.html', title='New Post',form=form, legend='New Post')
+
+#ROUTE TO VIEW ALL THE RECORDS / TO DO ITEMS
+@app.route("/view_all")
+def view_all():
+    posts = Items.query.order_by(Items.date_posted.desc()).all()
+    return render_template('view_all.html', posts=posts)
 
 
 @login_man.user_loader
 def load_user(user_id):
-    with open('user.txt', 'w+') as f:
-        f.write(str(Accounts.query.get(user_id)))
     return Accounts.query.get(user_id)
