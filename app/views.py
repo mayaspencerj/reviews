@@ -86,8 +86,12 @@ def post_review():
 def view_all():
     posts = Items.query.order_by(Items.date_posted.desc()).all()
     for item in posts:
-        id_number= session["user_id"]
-        name = Accounts.username.query.values(id_number)
+        #id_number= session["user_id"]
+        #name = db.session.query(Items.user_id, Accounts.username).join(Accounts).all()
+        stmt = text("SELECT username FROM Accounts where name=:name")
+        stmt = stmt.columns(Accounts.username)
+        name = session.query(Accounts).from_statement(stmt).params(name='ed').all()
+        #name = Accounts.username.query.values(id_number)
         #session.query(SomeModel).values('id', 'user')
     #    GET user_id
     #    name =Items.query.get(user_id)
