@@ -1,0 +1,18 @@
+<!--HTML FILE TO VIEW THE COMPLETED TO DO ITEMS -->
+<!-- LISTS THOSE WITH THE BOOLEAN FIELD VALUE OF 0 -->
+
+{% extends "index.html" %}
+{% block content %}
+    {% for post in posts %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+                <small class="text-muted">{{ post.date_posted.strftime("%H:%M, %d/%m/%Y") }} - Completed! </small>
+            </div>
+            <h2><a class="article-title">{{ post.restaurant }}</a> </h2>
+            <p class="article-content">{{ post.content }}</p>
+            <p class="article-content"> Your user account: {{ name }}</p>
+          </div>
+        </article>
+    {% endfor %}
+{% endblock content %}

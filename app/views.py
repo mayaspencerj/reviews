@@ -11,13 +11,12 @@ from flask_login import current_user, login_user, logout_user, login_required
 from flask_bcrypt import Bcrypt
 from app import login_man
 
-
-@app.route("/")
 @app.route('/index')
 @login_required
 def index():
     return render_template('index.html')
 
+@app.route("/")
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
@@ -29,10 +28,9 @@ def login():
             #if user is not None and Bcrypt.check_password_hash(user.password, request.form['password']):
                 login_user(user)
                 session['logged_in'] = True
+                session['username'] = request.form['username']
                 flash('You were logged in.')
 
-                with open('users.txt', 'w+') as f:
-                    f.write(str(Accounts.query.get(request.form['username'])))
                 return redirect(url_for('view_all'))
             #login_user(user, remember=form.remember_me.data)
 
@@ -84,22 +82,26 @@ def post_review():
 #ROUTE TO VIEW ALL THE RECORDS / TO DO ITEMS
 @app.route("/view_all")
 def view_all():
-    posts = Items.query.order_by(Items.date_posted.desc()).all()
-    for item in posts:
-        #id_number= session["user_id"]
-        #name = db.session.query(Items.user_id, Accounts.username).join(Accounts).all()
-        stmt = text("SELECT username FROM Accounts where name=:name")
-        stmt = stmt.columns(Accounts.username)
-        name = session.query(Accounts).from_statement(stmt).params(name='ed').all()
-        #name = Accounts.username.query.values(id_number)
-        #session.query(SomeModel).values('id', 'user')
-    #    GET user_id
-    #    name =Items.query.get(user_id)
-    #    Items.query.filter_by(username=username).first_or_404(description='There is no data with {}'.
-    #    QUERY accountswith user_id for username
-    #    save name
+    posts = Items.query.all()
+    post_ids = db.session.query(Items.user_id)
+    for review in posts:
+        name = review
+        #id_num = db.session.query(Items.user_id)
+        #name_id = post_ids[2] #that provides the user id
+        #name = db.session.query(Accounts.username, name_id)
+        #name = Query([Accounts, Items], session=some_session)
 
+        #oAuthor = DBSession.query(User).filter_by(name="Sheena O'Connell")
         return render_template('view_all.html', posts=posts, name=name)
+
+@login_required
+@app.route("/view_user")
+def view_user():
+    name = session['username']
+    posts = Items.query.filter_by(user_id=session['user_id'])
+    post_ids = db.session.query(Items.user_id)
+
+    return render_template('view_all.html', posts=posts,name=name)
 
 
 @login_man.user_loader
