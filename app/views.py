@@ -11,6 +11,20 @@ from flask_login import current_user, login_user, logout_user, login_required
 from flask_bcrypt import Bcrypt
 from app import login_man
 
+
+@app.errorhandler(404)
+def not_found_error(error):
+    return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def internal_error(error):
+    db.session.rollback()
+    return render_template('500.html'), 500
+
+@login_man.unauthorized_handler
+def unauthorized_callback():
+    return redirect('/login')
+
 @app.route('/index')
 @login_required
 def index():
@@ -92,7 +106,8 @@ def view_all():
 @login_required
 @app.route("/view_user")
 def view_user():
-    name = "This is your post! Username: " + session['username']
+
+    name = "This is your post! Username: " + session['username'].upper()
     posts = Items.query.filter_by(user_id=session['user_id'])
     return render_template('view_all.html', posts=posts,name=name)
 

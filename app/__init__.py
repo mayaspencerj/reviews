@@ -16,4 +16,4 @@ migrate = Migrate(app, db)
 bcrypt = Bcrypt(app)
 
 #import files from app folder
-from app import views, models, errors
+from app import views, models
