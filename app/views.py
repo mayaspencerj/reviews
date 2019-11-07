@@ -84,23 +84,16 @@ def post_review():
 def view_all():
     posts = Items.query.all()
     post_ids = db.session.query(Items.user_id)
-    for review in posts:
-        name = review
-        #id_num = db.session.query(Items.user_id)
-        #name_id = post_ids[2] #that provides the user id
-        #name = db.session.query(Accounts.username, name_id)
-        #name = Query([Accounts, Items], session=some_session)
 
-        #oAuthor = DBSession.query(User).filter_by(name="Sheena O'Connell")
+    for item in posts:
+        name = str(item.user_id)  + " not sure"
         return render_template('view_all.html', posts=posts, name=name)
 
 @login_required
 @app.route("/view_user")
 def view_user():
-    name = session['username']
+    name = "This is your post! Username: " + session['username']
     posts = Items.query.filter_by(user_id=session['user_id'])
-    post_ids = db.session.query(Items.user_id)
-
     return render_template('view_all.html', posts=posts,name=name)
 
 

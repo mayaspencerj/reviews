@@ -6,9 +6,6 @@ from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
 
 
-
-
-
 #configuration and migration
 app = Flask(__name__)
 app.config.from_object('config_app')
@@ -18,10 +15,5 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 bcrypt = Bcrypt(app)
 
-
-
-
-
-
 #import files from app folder
-from app import views, models
+from app import views, models, errors
