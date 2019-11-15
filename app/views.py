@@ -10,7 +10,6 @@ import sys, json, requests, os
 from flask_login import current_user, login_user, logout_user, login_required
 from flask_bcrypt import Bcrypt
 from app import login_man
-import json
 
 
 @app.errorhandler(404)
@@ -45,7 +44,6 @@ def login():
                 session['logged_in'] = True
                 session['username'] = request.form['username']
                 flash('You were logged in.')
-
                 return redirect(url_for('view_all'))
             #login_user(user, remember=form.remember_me.data)
 
@@ -63,8 +61,7 @@ def register():
         user = Accounts(
             username=form.username.data,
             email=form.email.data,
-            password=form.password.data
-        )
+            password=form.password.data)
         db.session.add(user)
         db.session.commit()
         login_user(user)
@@ -82,20 +79,27 @@ def logout():
 def post_review():
     form = PostForm()
     if form.validate_on_submit():
-    #    lat = session.get("lat", None)
-    #    long = session.get("long", None)
-        data = json.loads(request.data)
-        lat = data.get('lat')
-        long = data.get('long')
-        return json.dumps({'status': 'OK', 'lat': lat, 'long': long})
+        lat = session.get("lat")
+        long = session.get("long")
         user_ids = session["user_id"]
         post = Items(restaurant=form.restaurant.data, content=form.content.data, location_lat=lat, location_long=long, user_id=user_ids)
         db.session.add(post)
         db.session.commit()
         flash('Your post has been created!', 'success')
-
         return redirect(url_for('view_all'))
     return render_template('post_rev.html', title='New Post',form=form, legend='New Post')
+
+@app.route('/location', methods=['POST'])
+def location():
+    form = PostForm()
+    data = json.loads(request.data)
+    lat = data.get('lat')
+    long = data.get('long')
+    session["lat"] = lat
+    session["long"] = long
+    return render_template('post_rev.html', lat=lat,long=long, form=form)
+
+
 #ROUTE TO VIEW ALL THE RECORDS / TO DO ITEMS
 @app.route("/view_all")
 def view_all():
