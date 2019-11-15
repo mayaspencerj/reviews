@@ -31,7 +31,6 @@ class Items(db.Model):
         """Return True if the user is authenticated."""
         return self.authenticated
 
-
     @property
     def is_active(self):
         return True

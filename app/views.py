@@ -97,16 +97,17 @@ def post_review():
 @app.route("/view_all")
 def view_all():
     posts = Items.query.all()
-    post_ids = db.session.query(Items.user_id)
     for item in posts:
-        name = str(item.user_id)  + " not sure"
-        return render_template('view_all.html', posts=posts, name=name)
+        name_id = str(item.user_id)
+
+    return render_template('view_all.html', posts=posts, review_name=name_id)
 
 @app.route("/view_user")
 @login_required
 def view_user():
     name = session['username'].capitalize()
     posts = Items.query.filter_by(user_id=session['user_id'])
+
     return render_template('view_all.html', posts=posts,name=name)
 
 
