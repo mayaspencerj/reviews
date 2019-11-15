@@ -82,8 +82,9 @@ def logout():
 def post_review():
     form = PostForm()
     if form.validate_on_submit():
-        lat = session.get("lat", None)
-        long = session.get("long", None)
+        lat = str(session.get("lat"))
+        long = str(session.get("long"))
+        print(lat,long)
         user_ids = session["user_id"]
         post = Items(restaurant=form.restaurant.data, content=form.content.data, location_lat=lat, location_long=long, user_id=user_ids)
         db.session.add(post)
@@ -98,15 +99,13 @@ def post_review():
 def view_all():
     posts = Items.query.all()
     post_ids = db.session.query(Items.user_id)
-
     for item in posts:
         name = str(item.user_id)  + " not sure"
         return render_template('view_all.html', posts=posts, name=name)
 
-@login_required
 @app.route("/view_user")
+@login_required
 def view_user():
-
     name = "This is your post! Username: " + session['username'].upper()
     posts = Items.query.filter_by(user_id=session['user_id'])
     return render_template('view_all.html', posts=posts,name=name)
