@@ -10,6 +10,7 @@ import sys, json, requests, os
 from flask_login import current_user, login_user, logout_user, login_required
 from flask_bcrypt import Bcrypt
 from app import login_man
+import json
 
 
 @app.errorhandler(404)
@@ -76,20 +77,23 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-@app.route('/post_rev', methods=['GET','POST'])
+@app.route('/post_rev', methods=['POST'])
 @login_required
 def post_review():
     form = PostForm()
     if form.validate_on_submit():
-        lat = str(session.get("lat"))
-        long = str(session.get("long"))
-        print(lat,long)
+    #    lat = session.get("lat", None)
+    #    long = session.get("long", None)
+        data = json.loads(request.data)
+        lat = data.get('lat')
+        long = data.get('long')
+        return json.dumps({'status': 'OK', 'lat': lat, 'long': long})
         user_ids = session["user_id"]
         post = Items(restaurant=form.restaurant.data, content=form.content.data, location_lat=lat, location_long=long, user_id=user_ids)
         db.session.add(post)
         db.session.commit()
         flash('Your post has been created!', 'success')
-        session.clear()
+
         return redirect(url_for('view_all'))
     return render_template('post_rev.html', title='New Post',form=form, legend='New Post')
 

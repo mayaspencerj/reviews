@@ -28,7 +28,7 @@ function showPosition(position){
            data: JSON.stringify({ lat: stored_lat, long: stored_long }),// Specify the format of the data which will be sent.
            contentType: "application/json; charset=utf-8",
            // The data type itself.
-        //   dataType: "json",
+           dataType: "json",
            // Define the function which will be triggered if the request is received and
            // a response successfully returned.
 

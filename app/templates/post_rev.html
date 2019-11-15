@@ -7,7 +7,7 @@
         <form method="POST" action="/post_rev">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Add your restaurant review </legend>
+                <legend class="border-bottom mb-4"></legend>
                 <div class="form-group">
                     {{ form.restaurant.label(class="form-control-label") }}
                     {% if form.restaurant.errors %}
@@ -34,7 +34,6 @@
                         {{ form.content(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
-
             </fieldset>
             <div class="form-control form-control-lg">
               <input type = "button" id="pressed" onclick = "getLocation()" value = "Import location" >
