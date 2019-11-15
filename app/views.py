@@ -76,7 +76,6 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-
 @app.route('/post_rev', methods=['GET','POST'])
 @login_required
 def post_review():
@@ -106,12 +105,9 @@ def view_all():
 @app.route("/view_user")
 @login_required
 def view_user():
-    if session.get['username'] == None:
-        return redirect(url_for('login'))
-    else:
-        name = session['username'].capitalize()
-        posts = Items.query.filter_by(user_id=session['user_id'])
-        return render_template('view_all.html', posts=posts,name=name)
+    name = session['username'].capitalize()
+    posts = Items.query.filter_by(user_id=session['user_id'])
+    return render_template('view_all.html', posts=posts,name=name)
 
 
 @login_man.user_loader

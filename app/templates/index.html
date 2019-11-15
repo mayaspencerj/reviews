@@ -13,9 +13,11 @@
       <!--Navbar style strip at top with title-->
       <header class="site-header">
       <nav class="navbar navbar-dark bg-primary fixed-top bg-danger">
-        <span class="navbar-brand mb-0 h1"> Review Site
+        <span class="navbar-brand mb-0 h1"> Review Site!
           {% if current_user.is_authenticated %}
-          Hi {{ current_user.name }}!
+          Hi {{ current_user.username }} you are logged in!
+          {% else %}
+          You are not logged in! Access is restricted.
           {% endif %}
 
 

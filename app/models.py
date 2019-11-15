@@ -27,9 +27,10 @@ class Items(db.Model):
         self.location_lat = location_lat
         self.user_id = user_id
 
-    @property
     def is_authenticated(self):
-        return True
+        """Return True if the user is authenticated."""
+        return self.authenticated
+
 
     @property
     def is_active(self):
