@@ -13,7 +13,13 @@
       <!--Navbar style strip at top with title-->
       <header class="site-header">
       <nav class="navbar navbar-dark bg-primary fixed-top bg-danger">
-        <span class="navbar-brand mb-0 h1"> Review Site </span>
+        <span class="navbar-brand mb-0 h1"> Review Site
+          {% if current_user.is_authenticated %}
+          Hi {{ current_user.name }}!
+          {% endif %}
+
+
+        </span>
       </nav>
       </header>
       <main class="container">

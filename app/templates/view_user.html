@@ -1,6 +1,5 @@
 <!--HTML FILE TO VIEW THE COMPLETED TO DO ITEMS -->
 <!-- LISTS THOSE WITH THE BOOLEAN FIELD VALUE OF 0 -->
-
 {% extends "index.html" %}
 {% block content %}
   <h2> These are your reviews {{ name }} </h2>
@@ -8,11 +7,10 @@
         <article class="media content-section">
           <div class="media-body">
             <div class="article-metadata">
-                <small class="text-muted">{{ post.date_posted.strftime("%H:%M, %d/%m/%Y") }} - Completed! </small>
+                <small class="text-muted">{{ post.date_posted.strftime("%H:%M, %d/%m/%Y") }} - Completedsss! </small>
             </div>
             <h2><a class="article-title">{{ post.restaurant }}</a> </h2>
             <p class="article-content">{{ post.content }}</p>
-
           </div>
         </article>
     {% endfor %}

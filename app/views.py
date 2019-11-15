@@ -70,12 +70,12 @@ def register():
         return redirect(url_for('post_rev.html'))
     return render_template('register.html', form=form)
 
-@app.route('/logout')
+@app.route("/logout")
 @login_required
 def logout():
-        session.pop('logged_in', None)
-        flash('You were logged out.')
-        return redirect(url_for('login'))
+    logout_user()
+    return redirect(url_for('login'))
+
 
 @app.route('/post_rev', methods=['GET','POST'])
 @login_required
@@ -106,9 +106,12 @@ def view_all():
 @app.route("/view_user")
 @login_required
 def view_user():
-    name = "This is your post! Username: " + session['username'].upper()
-    posts = Items.query.filter_by(user_id=session['user_id'])
-    return render_template('view_all.html', posts=posts,name=name)
+    if session.get['username'] == None:
+        return redirect(url_for('login'))
+    else:
+        name = session['username'].capitalize()
+        posts = Items.query.filter_by(user_id=session['user_id'])
+        return render_template('view_all.html', posts=posts,name=name)
 
 
 @login_man.user_loader
