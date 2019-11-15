@@ -8,16 +8,13 @@ function getLocation(){
   } else {
     x.innerHTML = "Geolocation is not supported by this browser.";
   }
-
 }
 
 function showPosition(position){
   stored_lat = Math.round(position.coords.latitude * 100) / 100;
   stored_long = Math.round(position.coords.longitude * 100) / 100;
-
   lat.innerHTML = "Latitude: " + stored_lat;
   long.innerHTML = "<br>Longitude: " + stored_long;
-
   $.ajax({
            // Specify the endpoint URL the request should be sent to.
            url: '/post_rev',
@@ -32,10 +29,14 @@ function showPosition(position){
            // Define the function which will be triggered if the request is received and
            // a response successfully returned.
 
+
            // The function which will be triggered if any error occurs.
+
            error: function(error){
                console.log(error);
            }
        });
+
+
 
 }

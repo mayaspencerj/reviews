@@ -77,7 +77,7 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-@app.route('/post_rev', methods=['POST'])
+@app.route('/post_rev', methods=['GET','POST'])
 @login_required
 def post_review():
     form = PostForm()
@@ -96,14 +96,12 @@ def post_review():
 
         return redirect(url_for('view_all'))
     return render_template('post_rev.html', title='New Post',form=form, legend='New Post')
-
 #ROUTE TO VIEW ALL THE RECORDS / TO DO ITEMS
 @app.route("/view_all")
 def view_all():
     posts = Items.query.all()
     for item in posts:
         name_id = str(item.user_id)
-
     return render_template('view_all.html', posts=posts, review_name=name_id)
 
 @app.route("/view_user")
@@ -111,7 +109,6 @@ def view_all():
 def view_user():
     name = session['username'].capitalize()
     posts = Items.query.filter_by(user_id=session['user_id'])
-
     return render_template('view_all.html', posts=posts,name=name)
 
 
