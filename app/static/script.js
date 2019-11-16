@@ -20,7 +20,7 @@ function showPosition(position){
   console.log("testing", stored_lat, stored_long)
   $.ajax({
            // Specify the endpoint URL the request should be sent to.
-           url: '/location',
+           url: '/POST',
            // The request type.
            type: 'POST',
            // The data, which is now most commonly formatted using JSON because of its
