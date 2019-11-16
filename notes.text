@@ -1,0 +1,5 @@
+to run:
+- python run.py
+
+PROBLEM 1: storing geo location co ordinates in database
+- using AJAX POST
