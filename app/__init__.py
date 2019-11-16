@@ -15,5 +15,6 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 bcrypt = Bcrypt(app)
 
+
 #import files from app folder
 from app import views, models

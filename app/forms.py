@@ -8,7 +8,6 @@ class PostForm(FlaskForm):
     content = StringField('Review', validators=[DataRequired(), Length(min=2, max=10000)])
     submit = SubmitField('Publish Review')
 
-
 class RegisterForm(FlaskForm):
     username = StringField('Username',validators=[DataRequired(), Length(min=2, max=20)])
     email = StringField('Email', validators=[DataRequired(), Email()])
@@ -31,3 +30,6 @@ class LoginForm(FlaskForm):
     password = PasswordField('password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
+
+class PasswordForm(FlaskForm):
+    password = PasswordField('Password', validators=[DataRequired()])

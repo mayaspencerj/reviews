@@ -4,7 +4,7 @@ from flask import Flask, render_template, url_for, flash, redirect, request, sen
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Date, Integer, Text, create_engine, inspect
 from datetime import datetime
-from .forms import PostForm, RegisterForm, LoginForm
+from .forms import PostForm, RegisterForm, LoginForm, PasswordForm
 from .models import db, Items, Accounts
 import sys, json, requests, os
 from flask_login import current_user, login_user, logout_user, login_required
@@ -121,6 +121,23 @@ def view_user():
     name = session['username'].capitalize()
     posts = Items.query.filter_by(user_id=session['user_id'])
     return render_template('view_all.html', posts=posts,name=name)
+
+@app.route("/password_change", methods=["GET", "POST"])
+@login_required
+def user_password_change():
+    form = PasswordForm()
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            user = current_user
+            user.password = form.password.data
+
+            #db.session.add(user)
+            db.session.commit()
+            flash('Password has been updated!', 'success')
+            return redirect(url_for('view_all'))
+
+    return render_template('password_change.html', form=form)
+
 
 
 @login_man.user_loader

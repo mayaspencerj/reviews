@@ -2,6 +2,7 @@ body {
   background: #61B2E3;
   color: #333333;
   margin-top: 5rem;
+    padding: 60px 0;
   /* my pink background colour */
   background-color: rgb(238, 130, 238);
 }
@@ -17,4 +18,10 @@ body {
 /* styling removes the bullet points from the menu list */
 ul {
   list-style-type:none;
+}
+
+
+.error {
+  color: red;
+  font-size: .8em;
 }
