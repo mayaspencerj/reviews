@@ -130,7 +130,6 @@ def user_password_change():
         if form.validate_on_submit():
             user = current_user
             user.password = form.password.data
-
             #db.session.add(user)
             db.session.commit()
             flash('Password has been updated!', 'success')

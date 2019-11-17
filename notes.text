@@ -3,3 +3,20 @@ to run:
 
 PROBLEM 1: storing geo location co ordinates in database
 - using AJAX POST
+-location cords are bit slow in appearing on website
+-also only works in chrome
+-this is in /location route and /post_rev route
+-can probably be merged into one route though
+
+
+
+PROBLEM 2: printing name of user who made review
+- prints only ID 1
+- should print the username for each review
+- this is in /view_all route
+
+
+
+Logins to use (or create new one)
+- maya and pass
+- Elena and test
