@@ -52,7 +52,7 @@ def login():
                 flash('Invalid username or password.')
         else:
             flash('Sorry, no account located')
-    return render_template('login.html', form=form)
+    return render_template('login.html', form=form,error=error)
 
 
 @app.route('/register/', methods=['GET', 'POST'])
@@ -109,18 +109,12 @@ def location():
 @app.route("/view_all")
 def view_all():
     posts = Items.query.all()
-    #q = session.query(Items).join(Items.user_id)
-    j = Accounts.join(Items, accounts.c.id == Items.c.user_ids)
-    jj = select([accounts.username]).select_from(j)
-    #name_query = Accounts.select(Accounts.username.join(Items))
-    #for pet in base_query.where(Pet.name == 'huey'):
-    #    print(pet.name, pet.animal.flags)
-    for item in posts:
-        #NEED TO AN SQL QUERY TO JOIN TABES TOGETHER BY FOREIGN KEY
-        #PRINT USER NAME FOR EACH REVIEW:
-        name_id = "This review is by " + str(item.user_id)
 
-    return render_template('view_all.html', posts=posts, review_name=jj)
+    for post in posts:
+        #name_id = "This review is by " + str(item.user_id)
+        post.username = Accounts.query.filter_by(id=Items.id).first().username
+
+    return render_template('view_all.html', posts=posts)
 
 @app.route("/view_user")
 @login_required
