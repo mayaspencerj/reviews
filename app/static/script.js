@@ -1,3 +1,12 @@
+window.setInterval(function(){
+  var randomColor = '#'+ ('000000' + Math.floor(Math.random()*16777215).toString(16)).slice(-6);
+  $('.content-section').css({
+    'background-color' : randomColor,
+  });
+
+}, 2000);
+
+
 var my_lat = document.getElementById("lat");
 var my_long = document.getElementById("long");
 

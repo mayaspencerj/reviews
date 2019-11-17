@@ -2,7 +2,7 @@ from app import app
 import os.path
 from flask import Flask, render_template, url_for, flash, redirect, request, send_from_directory, jsonify, session, abort
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Column, Date, Integer, Text, create_engine, inspect
+from sqlalchemy import Column, Date, Text, create_engine, inspect, create_engine, MetaData, Table, Integer, String, ForeignKey
 from datetime import datetime
 from .forms import PostForm, RegisterForm, LoginForm, PasswordForm
 from .models import db, Items, Accounts
@@ -10,6 +10,7 @@ import sys, json, requests, os
 from flask_login import current_user, login_user, logout_user, login_required
 from flask_bcrypt import Bcrypt
 from app import login_man
+
 
 
 @app.errorhandler(404)
@@ -108,12 +109,18 @@ def location():
 @app.route("/view_all")
 def view_all():
     posts = Items.query.all()
+    #q = session.query(Items).join(Items.user_id)
+    j = Accounts.join(Items, accounts.c.id == Items.c.user_ids)
+    jj = select([accounts.username]).select_from(j)
+    #name_query = Accounts.select(Accounts.username.join(Items))
+    #for pet in base_query.where(Pet.name == 'huey'):
+    #    print(pet.name, pet.animal.flags)
     for item in posts:
         #NEED TO AN SQL QUERY TO JOIN TABES TOGETHER BY FOREIGN KEY
         #PRINT USER NAME FOR EACH REVIEW:
         name_id = "This review is by " + str(item.user_id)
 
-    return render_template('view_all.html', posts=posts, review_name=name_id)
+    return render_template('view_all.html', posts=posts, review_name=jj)
 
 @app.route("/view_user")
 @login_required
