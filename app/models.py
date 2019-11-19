@@ -2,7 +2,6 @@ from app import db
 from datetime import datetime
 from flask_login import UserMixin
 
-
 #DECLARING MODEL, MY ITEMS TABLE TO HOLD TO DO ITEMS
 class Accounts(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -10,6 +9,10 @@ class Accounts(UserMixin, db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
 #   posts = db.relationship('Items', backref='author', lazy=True)
+
+class Cuisines(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    type = db.Column(db.String(120), unique=False, nullable=True)
 
 class Items(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -20,7 +23,6 @@ class Items(db.Model):
     location_lat = db.Column(db.String(120), unique=False, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('accounts.id'), nullable=False)
 
-    
     def __init__(self,restaurant,content,location_long, location_lat,user_id):
         self.restaurant = restaurant
         self.content = content
