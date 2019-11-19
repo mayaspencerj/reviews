@@ -5,7 +5,8 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Date, Text, create_engine, inspect, create_engine, MetaData, Table, Integer, String, ForeignKey
 from datetime import datetime
 from .forms import PostForm, RegisterForm, LoginForm, PasswordForm
-from .models import db, Items, Accounts, Cuisines, Users_Cuisines
+from .models import db, Items, Accounts, Cuisines
+from .models import *
 import sys, json, requests, os
 from flask_login import current_user, login_user, logout_user, login_required
 from flask_bcrypt import Bcrypt
