@@ -64,7 +64,18 @@ def register():
         db.session.add(user)
         db.session.commit()
         login_user(user)
-        return redirect(url_for('post_rev.html'))
+        id = session['user_id']
+        choices = request.form.getlist('mycheckbox')
+        if choices == []:
+            pass
+        else:
+            for i in choices:
+                cuisine_item = Users_Cuisines(int(id),int(i))
+                db.session.add(cuisine_item)
+                db.session.commit()
+
+
+        return redirect(url_for('post_rev'))
     return render_template('register.html', form=form)
 
 @app.route("/logout")
@@ -107,20 +118,17 @@ def location():
 @app.route("/view_all")
 def view_all():
     posts = Items.query.all()
-
     for post in posts:
         #name_id = "This review is by " + str(item.user_id)
         post.username = Accounts.query.filter_by(id=Items.id).first().username
-
-
     return render_template('view_all.html', posts=posts)
 
 
 #ROUTE TO VIEW ALL THE RECORDS / TO DO ITEMS
-@app.route("/preferences")
+@app.route('/preferences', methods=['GET', 'POST'])
 @login_required
 def preferences():
-
+    #VIEW PREFERENCES
     return render_template('preferences.html')
 
 
