@@ -47,3 +47,12 @@ class Items(db.Model):
             return unicode(self.id)  # python 2
         except NameError:
             return str(self.id)
+
+class Users_Cuisines(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('accounts.id'), nullable=False)
+    cuisine_id = db.Column(db.Integer, db.ForeignKey('accounts.id'), nullable=False)
+
+    def __init__(self,user_id,cuisine_id):
+        self.user_id = user_id
+        self.cuisine_id = cuisine_id
