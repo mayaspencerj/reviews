@@ -1,6 +1,7 @@
 from app import db
 from datetime import datetime
 from flask_login import UserMixin
+from flask_sqlalchemy import SQLAlchemy
 
 #DECLARING MODEL, MY ITEMS TABLE TO HOLD TO DO ITEMS
 class Accounts(UserMixin, db.Model):
@@ -8,8 +9,9 @@ class Accounts(UserMixin, db.Model):
     username = db.Column(db.String(30), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
-    items = db.relationship('Items', backref='Accounts', lazy='dynamic')
-    cuisines = db.relationship('Cuisines', secondary='users_cuisines', backref='Accounts', lazy='dynamic')
+
+    items = db.relationship('Items', backref='accounts', lazy='dynamic')
+    cuisines = db.relationship('Cuisines', secondary='AccountsCuisines', backref='Accounts', lazy='dynamic')
 
 class Items(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -50,7 +52,13 @@ class Cuisines(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     type = db.Column(db.String(120), unique=False, nullable=True)
 
-db.Table('Users_Cuisines',
+
+#class AccountsCuisines(db.Model):
+#    accounts_id = db.Column(db.Integer, db.ForeignKey('accounts.id'))
+#    cuisines_id = db.Column(db.Integer, db.ForeignKey('cuisines.id'))
+
+
+db.Table('AccountsCuisines',
 	db.Column('accounts_id', db.Integer, db.ForeignKey('accounts.id')),
 	db.Column('cuisines_id', db.Integer, db.ForeignKey('cuisines.id'))
 	)
