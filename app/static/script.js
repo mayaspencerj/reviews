@@ -7,6 +7,7 @@ window.setInterval(function(){
 }, 2000);
 
 
+
 var my_lat = document.getElementById("lat");
 var my_long = document.getElementById("long");
 
@@ -29,15 +30,15 @@ function showPosition(position){
   console.log("testing", stored_lat, stored_long)
   $.ajax({
            // Specify the endpoint URL the request should be sent to.
-           url: '/POST',
+           url: '/location',
            // The request type.
            type: 'POST',
            // The data, which is now most commonly formatted using JSON because of its
            // simplicity and is native to JavaScript.
-           data: JSON.stringify({ lat: stored_lat }),// Specify the format of the data which will be sent.
+           data: JSON.stringify({ lat: stored_lat, long:stored_long }),// Specify the format of the data which will be sent.
            contentType: "application/json; charset=utf-8",
            // The data type itself.
-           dataType: "json",
+           // dataType: "json",
            // Define the function which will be triggered if the request is received and
            // a response successfully returned.
            // The function which will be triggered if any error occurs.
@@ -47,6 +48,5 @@ function showPosition(position){
            }
        });
 
-    console.log("testing", stored_lat, stored_long)
 
 }

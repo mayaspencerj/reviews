@@ -81,7 +81,7 @@ def logout():
 #NEED TO SEND OVER CORDS TO BE ADDED TO RECORD
 @app.route('/post_rev', methods=['GET','POST'])
 @login_required
-def post_review():
+def post_rev():
     form = PostForm()
     if form.validate_on_submit():
         lat = session.get("lat")
@@ -113,6 +113,7 @@ def view_all():
     for post in posts:
         #name_id = "This review is by " + str(item.user_id)
         post.username = Accounts.query.filter_by(id=Items.id).first().username
+
 
     return render_template('view_all.html', posts=posts)
 
