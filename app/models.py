@@ -8,7 +8,8 @@ class Accounts(UserMixin, db.Model):
     username = db.Column(db.String(30), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
-#   posts = db.relationship('Items', backref='author', lazy=True)
+    items = db.relationship('Items', backref='Accounts', lazy='dynamic')
+    cuisines = db.relationship('Cuisines', secondary='user_cuisines', backref='Accounts', lazy='dynamic')
 
 class Cuisines(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -50,9 +51,14 @@ class Items(db.Model):
 
 class Users_Cuisines(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('accounts.id'), nullable=False)
-    cuisine_id = db.Column(db.Integer, db.ForeignKey('accounts.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('Accounts.id'), nullable=False)
+    cuisine_id = db.Column(db.Integer, db.ForeignKey('Cuisines.id'), nullable=False)
 
-    def __init__(self,user_id,cuisine_id):
-        self.user_id = user_id
-        self.cuisine_id = cuisine_id
+#class Users_Cuisines(db.Model):
+#    id = db.Column(db.Integer, primary_key=True)
+#    user_id = db.Column(db.Integer, db.ForeignKey('accounts.id'), nullable=False)
+#    cuisine_id = db.Column(db.Integer, db.ForeignKey('accounts.id'), nullable=False)
+
+#    def __init__(self,user_id,cuisine_id):
+#        self.user_id = user_id
+#        self.cuisine_id = cuisine_id
