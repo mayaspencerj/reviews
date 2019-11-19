@@ -117,6 +117,15 @@ def view_all():
 
     return render_template('view_all.html', posts=posts)
 
+
+#ROUTE TO VIEW ALL THE RECORDS / TO DO ITEMS
+@app.route("/preferences")
+@login_required
+def preferences():
+
+    return render_template('preferences.html')
+
+
 @app.route("/view_user")
 @login_required
 def view_user():

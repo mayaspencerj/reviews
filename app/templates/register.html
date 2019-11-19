@@ -1,10 +1,12 @@
 
 {% extends "index.html" %}
 {% block content %}
-<h1>Please Register</h1>
+
 <form class="form-signin" role="form" method="post" action="">
   {{ form.csrf_token }}
   <div class="content-section">
+      <h1 class="h3 mb-3 font-weight-normal">Please Register</h1>
+      <legend class="border-bottom mb-4"></legend>
   <div class="form-group">
     {{ form.username(placeholder="Username") }}
     <span class="error">
