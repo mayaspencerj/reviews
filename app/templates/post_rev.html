@@ -2,7 +2,6 @@
 <script type="text/javascript" src="{{ url_for('static', filename='jquery.min.js') }}" ></script>
 <script type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>
 {% block content %}
-
     <div class="content-section">
         <form method="POST" action="/post_rev">
             {{ form.hidden_tag() }}
