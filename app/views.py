@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Date, Text, create_engine, inspect, create_engine, MetaData, Table, Integer, String, ForeignKey
 from datetime import datetime
 from .forms import PostForm, RegisterForm, LoginForm, PasswordForm
-from .models import db, Items, Accounts, Cuisines
+from .models import db, Items, Accounts, Cuisines, AccountsCuisines
 import sys, json, requests, os
 from flask_login import current_user, login_user, logout_user, login_required
 from flask_bcrypt import Bcrypt
@@ -64,19 +64,26 @@ def register():
         db.session.add(user)
         db.session.commit()
         login_user(user)
-        id = session['user_id']
+        id = int(session['user_id'])
         choices = request.form.getlist('mycheckbox')
         if choices == []:
             pass
         else:
             for i in choices:
-                cuisine_item = AccountsCuisines(int(id),int(i))
-                db.session.add(cuisine_item)
-                db.session.commit()
+                cuisine_choice(id,i)
 
 
         return redirect(url_for('post_rev'))
     return render_template('register.html', form=form)
+
+
+def cuisine_choice(acc,cui):
+      insert_stmnt = AccountsCuisines.insert().values(accounts_id=acc,cuisines_id=cui)
+      db.session.execute(insert_stmnt)
+      db.session.commit()
+      return
+
+
 
 @app.route("/logout")
 @login_required

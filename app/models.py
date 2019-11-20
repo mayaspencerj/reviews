@@ -3,6 +3,11 @@ from datetime import datetime
 from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
 
+AccountsCuisines = db.Table('AccountsCuisines', db.Model.metadata,
+	db.Column('accounts_id', db.Integer, db.ForeignKey('accounts.id')),
+	db.Column('cuisines_id', db.Integer, db.ForeignKey('cuisines.id'))
+	)
+
 #DECLARING MODEL, MY ITEMS TABLE TO HOLD TO DO ITEMS
 class Accounts(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -51,28 +56,3 @@ class Items(db.Model):
 class Cuisines(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     type = db.Column(db.String(120), unique=False, nullable=True)
-
-
-#class AccountsCuisines(db.Model):
-#    accounts_id = db.Column(db.Integer, db.ForeignKey('accounts.id'))
-#    cuisines_id = db.Column(db.Integer, db.ForeignKey('cuisines.id'))
-
-
-db.Table('AccountsCuisines',
-	db.Column('accounts_id', db.Integer, db.ForeignKey('accounts.id')),
-	db.Column('cuisines_id', db.Integer, db.ForeignKey('cuisines.id'))
-	)
-
-#class Users_Cuisines(db.Model):
-#    id = db.Column(db.Integer, primary_key=True)
-#    users_id = db.Column(db.Integer, db.ForeignKey('Accounts.id'), nullable=False)
-#    cuisines_id = db.Column(db.Integer, db.ForeignKey('Cuisines.id'), nullable=False)
-
-#class Users_Cuisines(db.Model):
-#    id = db.Column(db.Integer, primary_key=True)
-#    user_id = db.Column(db.Integer, db.ForeignKey('accounts.id'), nullable=False)
-#    cuisine_id = db.Column(db.Integer, db.ForeignKey('accounts.id'), nullable=False)
-
-#    def __init__(self,user_id,cuisine_id):
-#        self.user_id = user_id
-#        self.cuisine_id = cuisine_id
