@@ -138,7 +138,28 @@ def view_all():
 @app.route('/preferences', methods=['GET', 'POST'])
 @login_required
 def preferences():
-    #VIEW PREFERENCES
+    user_id = session['user_id']
+    print(user_id)
+
+    all = Dish.query.filter(Dish.restaurants.any(name=name)).all()
+    #filter_by(accounts_id=session['user_id'])
+    print(all)
+
+
+    #x = Dish.query.filter(Dish.restaurants.any(name=name)).all()
+    #print(xxx)
+
+
+    #EXTRACT DATA WITH MATCHING ID
+    #USING CURRENT USER ID
+
+
+    #IF EMPTY LISTS
+    #FLASH MESSAGE INSTEAD
+
+    #FOR A,B IN EXTRACTION
+        #PRODUCE Table
+
     return render_template('preferences.html')
 
 
