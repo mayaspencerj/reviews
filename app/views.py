@@ -125,9 +125,12 @@ def location():
 @app.route("/view_all")
 def view_all():
     posts = Items.query.all()
-    for post in posts:
-        #name_id = "This review is by " + str(item.user_id)
-        post.username = Accounts.query.filter_by(id=Items.id).first().username
+    if posts == []:
+        flash('No reviews to display yet!')
+    else:
+        for post in posts:
+            #name_id = "This review is by " + str(item.user_id)
+            post.username = Accounts.query.filter_by(id=Items.id).first().username
     return render_template('view_all.html', posts=posts)
 
 

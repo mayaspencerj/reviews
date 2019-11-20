@@ -2,6 +2,17 @@
 <!-- LISTS THOSE WITH THE BOOLEAN FIELD VALUE OF 0 -->
 {% extends "index.html" %}
 {% block content %}
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul class=flashes>
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
     {% for post in posts %}
         <article class="media content-section">
           <div class="media-body">
@@ -10,7 +21,7 @@
             </div>
             <h2><a class="article-title">{{ post.restaurant }}</a> </h2>
             <p class="article-content">{{ post.content }}</p>
-            
+
 
           </div>
         </article>
