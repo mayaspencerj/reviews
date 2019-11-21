@@ -141,24 +141,10 @@ def preferences():
     user_id = session['user_id']
     print(user_id)
     cuisine_list = Cuisines.query.filter(Cuisines.Accounts.any(id=user_id)).all()
-    #filter_by(accounts_id=session['user_id'])
-    print(cuisine_list)
-
-
-    #x = Dish.query.filter(Dish.restaurants.any(name=name)).all()
-    #print(xxx)
-
-
-    #EXTRACT DATA WITH MATCHING ID
-    #USING CURRENT USER ID
-
-
-    #IF EMPTY LISTS
-    #FLASH MESSAGE INSTEAD
-
-    #FOR A,B IN EXTRACTION
-        #PRODUCE Table
-
+    if cuisine_list == []:
+        flash('You have no preferences!')
+    else:
+        pass
     return render_template('preferences.html', cuisine_list=cuisine_list)
 
 
