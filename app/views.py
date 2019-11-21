@@ -140,10 +140,9 @@ def view_all():
 def preferences():
     user_id = session['user_id']
     print(user_id)
-
-    all = Dish.query.filter(Dish.restaurants.any(name=name)).all()
+    cuisine_list = Cuisines.query.filter(Cuisines.Accounts.any(id=user_id)).all()
     #filter_by(accounts_id=session['user_id'])
-    print(all)
+    print(cuisine_list)
 
 
     #x = Dish.query.filter(Dish.restaurants.any(name=name)).all()
@@ -160,7 +159,7 @@ def preferences():
     #FOR A,B IN EXTRACTION
         #PRODUCE Table
 
-    return render_template('preferences.html')
+    return render_template('preferences.html', cuisine_list=cuisine_list)
 
 
 @app.route("/view_user")
