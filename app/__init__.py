@@ -5,7 +5,6 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
 
-
 #configuration and migration
 app = Flask(__name__)
 app.config.from_object('config_app')

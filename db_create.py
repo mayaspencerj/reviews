@@ -5,3 +5,9 @@ import os.path
 
 # Creates the table and the database
 db.create_all()
+
+#preferences = Cuisines.query.all()
+#if preferences == []:
+#    Cuisines.create_tables()
+#else:
+#    pass

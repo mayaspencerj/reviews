@@ -8,8 +8,8 @@ from .forms import PostForm, RegisterForm, LoginForm, PasswordForm
 from .models import db, Items, Accounts, Cuisines, AccountsCuisines
 import sys, json, requests, os
 from flask_login import current_user, login_user, logout_user, login_required
-from flask_bcrypt import Bcrypt
 from app import login_man
+from flask_bcrypt import Bcrypt
 
 @app.errorhandler(404)
 def not_found_error(error):
@@ -44,7 +44,6 @@ def login():
                 session['username'] = request.form['username']
                 flash('You were logged in.')
                 return redirect(url_for('view_all'))
-            #login_user(user, remember=form.remember_me.data)
 
             else:
                 flash('Invalid username or password.')
@@ -57,10 +56,18 @@ def login():
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
+
+
+
+        password = str(form.password.data)
+        print(password)
+        password_hashed = Bcrypt.generate_password_hash(password)
+        print(password_hashed)
+
         user = Accounts(
             username=form.username.data,
             email=form.email.data,
-            password=form.password.data)
+            password=password_hashed)
         db.session.add(user)
         db.session.commit()
         login_user(user)
