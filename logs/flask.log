@@ -1,0 +1,5 @@
+2019-11-25 17:12:20,235 INFO: LOGIN PAGE LOADED [in /Users/mayaspencer-jacobs/Documents/reviews/app/views.py:45]
+2019-11-25 17:12:33,801 INFO: LOGIN PAGE LOADED [in /Users/mayaspencer-jacobs/Documents/reviews/app/views.py:45]
+2019-11-25 17:12:33,801 INFO: LOGIN PAGE LOADED [in /Users/mayaspencer-jacobs/Documents/reviews/app/views.py:45]
+2019-11-25 17:12:33,806 ERROR: FAILED LOGIN [in /Users/mayaspencer-jacobs/Documents/reviews/app/views.py:61]
+2019-11-25 17:12:33,806 ERROR: FAILED LOGIN [in /Users/mayaspencer-jacobs/Documents/reviews/app/views.py:61]

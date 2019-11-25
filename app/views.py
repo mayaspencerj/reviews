@@ -6,7 +6,8 @@ from sqlalchemy import Column, Date, Text, create_engine, inspect, create_engine
 from datetime import datetime
 from .forms import PostForm, RegisterForm, LoginForm, PasswordForm
 from .models import db, Items, Accounts, Cuisines, AccountsCuisines
-import sys, json, requests, os
+import sys, json, requests, os, logging
+from logging.handlers import RotatingFileHandler
 from flask_login import current_user, login_user, logout_user, login_required
 from app import login_man
 from flask_bcrypt import Bcrypt
@@ -32,6 +33,16 @@ def index():
 @app.route("/")
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+
+    if not os.path.exists('logs'):
+        os.mkdir('logs')
+    file_handler = RotatingFileHandler('logs/flask.log', maxBytes=10240,
+                                       backupCount=10)
+    file_handler.setFormatter(logging.Formatter(
+        '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
+    file_handler.setLevel(logging.INFO)
+    app.logger.addHandler(file_handler)
+    app.logger.info('LOGIN PAGE LOADED')
     error = None
     form = LoginForm(request.form)
     if request.method == 'POST':
@@ -43,33 +54,35 @@ def login():
                 session['logged_in'] = True
                 session['username'] = request.form['username']
                 flash('You were logged in.')
+                app.logger.info('USER LOGGED IN')
                 return redirect(url_for('view_all'))
-
             else:
                 flash('Invalid username or password.')
+                app.logger.error("FAILED LOGIN")
         else:
             flash('Sorry, no account located')
+            app.logger.warning("NO ACCOUNT FOUND")
     return render_template('login.html', form=form,error=error)
 
 
 @app.route('/register/', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
+    app.logger.info('REGISTRATION PAGE LOADED')
     if form.validate_on_submit():
-
-
-
         password = str(form.password.data)
-        print(password)
-        password_hashed = Bcrypt.generate_password_hash(password)
-        print(password_hashed)
+        #print(password)
+        #password_hashed = Bcrypt.generate_password_hash(password)
+        #print(password_hashed)
 
         user = Accounts(
             username=form.username.data,
             email=form.email.data,
-            password=password_hashed)
+            password=password)
         db.session.add(user)
         db.session.commit()
+        app.logger.info('NEW ACCOUNT CREATED')
+
         login_user(user)
         id = int(session['user_id'])
         choices = request.form.getlist('mycheckbox')
@@ -78,7 +91,7 @@ def register():
         else:
             for i in choices:
                 cuisine_choice(id,i)
-
+            app.logger.info('NEW USER CUISINES STORED')
 
         return redirect(url_for('post_rev'))
     return render_template('register.html', form=form)
@@ -91,10 +104,11 @@ def cuisine_choice(acc,cui):
       return
 
 
-
 @app.route("/logout")
 @login_required
 def logout():
+    app.logger.info('USER LOGGED OUT ')
+
     logout_user()
     return redirect(url_for('login'))
 
@@ -107,12 +121,14 @@ def logout():
 def post_rev():
     form = PostForm()
     if form.validate_on_submit():
+
         lat = session.get("lat")
         long = session.get("long")
         user_ids = session["user_id"]
         post = Items(restaurant=form.restaurant.data, content=form.content.data, location_lat=lat, location_long=long, user_id=user_ids)
         db.session.add(post)
         db.session.commit()
+        app.logger.info('USER REVIEW POSTED')
         flash('Your post has been created!', 'success')
         return redirect(url_for('view_all'))
     return render_template('post_rev.html', title='New Post',form=form, legend='New Post')
@@ -134,7 +150,10 @@ def view_all():
     posts = Items.query.all()
     if posts == []:
         flash('No reviews to display yet!')
+        app.logger.warning("NO REVIEWS DISPLAYED")
+
     else:
+        app.logger.info('DISPLAYING REVIEWS')
         for post in posts:
             #name_id = "This review is by " + str(item.user_id)
             post.username = Accounts.query.filter_by(id=Items.id).first().username
@@ -146,18 +165,21 @@ def view_all():
 @login_required
 def preferences():
     user_id = session['user_id']
-    print(user_id)
+    app.logger.info('USER REQUESTED PREFERENCES')
     cuisine_list = Cuisines.query.filter(Cuisines.Accounts.any(id=user_id)).all()
     if cuisine_list == []:
+        app.logger.warning("NO PREFERENCES AVAILABLE")
         flash('You have no preferences!')
     else:
-        pass
+        app.logger.info('DISPLAYING PREFERENCES')
+
     return render_template('preferences.html', cuisine_list=cuisine_list)
 
 
 @app.route("/view_user")
 @login_required
 def view_user():
+    app.logger.info('USER VIEWING THEIR REVIEWS')
     name = session['username'].capitalize()
     posts = Items.query.filter_by(user_id=session['user_id'])
     return render_template('view_all.html', posts=posts,name=name)
@@ -166,6 +188,7 @@ def view_user():
 @login_required
 def user_password_change():
     form = PasswordForm()
+    app.logger.info('LOADING PASSWORD RESET PAGE')
     if request.method == 'POST':
         if form.validate_on_submit():
             user = current_user
@@ -173,6 +196,7 @@ def user_password_change():
             #db.session.add(user)
             db.session.commit()
             flash('Password has been updated!', 'success')
+            app.logger.info('PASSWORD HAS BEEN UPDATED')
             return redirect(url_for('view_all'))
 
     return render_template('password_change.html', form=form)

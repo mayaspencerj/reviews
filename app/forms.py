@@ -19,11 +19,15 @@ class RegisterForm(FlaskForm):
         account = Accounts.query.filter_by(username=username.data).first()
         if account:
             raise ValidationError('An account with that username already exists')
+            app.logger.error("ACCOUNT WITH USERNAME GIVEN ALREADY EXISTS")
+
 
     def validate_email(self, email):
         account = Accounts.query.filter_by(email=email.data).first()
         if account:
             raise ValidationError('An account with that email already exists')
+            app.logger.error("ACCOUNT WITH EMAIL GIVEN ALREADY EXISTS")
+
 
 class LoginForm(FlaskForm):
     username = StringField('username', validators=[DataRequired()])
