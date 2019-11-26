@@ -22,13 +22,11 @@
             <div class="article-metadata">
                 <small class="text-muted">{{ post.date_posted.strftime("%H:%M, %d/%m/%Y") }} <br>
                   {% if post.location_lat == "" %}
-                   No location provided
+                   No location provided!
                   {% else %}
-                   {{  locations}}
-
+                   Location: {{  post.location_lat, post.location_long }}
                   {% endif %}
                   </small>
-
             </div>
             <h2><a class="article-title">{{ post.restaurant }}</a> </h2>
             <p class="article-content">{{ post.content }}</p>
