@@ -24,7 +24,6 @@ function getLocation() {
     $('#location_status').addClass('text-error').text('Geolocation not supported by browser.');
     return;
   }
-
   // disable button whilst loading and set status text
   $('#import_location_btn').attr('disabled', 'disabled');
   $('#location_status').addClass('text-secondary').text('Getting location data...');
