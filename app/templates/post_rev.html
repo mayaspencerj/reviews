@@ -3,7 +3,7 @@
 <script type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>
 {% block content %}
     <div class="content-section">
-        <form method="POST" action="/post_rev">
+        <form method="POST" id="review_form" action="/post_rev">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
               <h1 class="h3 mb-3 font-weight-normal">Post a review</h1>
@@ -36,9 +36,13 @@
                 </div>
             </fieldset>
             <div class="form-control form-control-lg">
-              <input type = "button" id="pressed" onclick = "getLocation()" value = "Import location" >
-              <p id="lat"> </p>
-              <p id="long"></p>
+              <div class="location-holder">
+                <!-- Button has almost the exact attr's and is better suited in this case -->
+                <button class="btn btn-sm btn-outline-primary" id="import_location_btn">
+                  Attach location
+                </button>
+                <p id="location_status"></p>
+              </div>
                {{ form.submit(class="btn btn-outline-info") }}
             </div>
         </form>
