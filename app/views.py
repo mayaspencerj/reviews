@@ -145,7 +145,6 @@ def view_all():
     else:
         app.logger.info('DISPLAYING REVIEWS')
         for post in posts:
-
             # because the backref is account we can now access its properties
             post.username = (post.accounts.username).capitalize()
         return render_template('view_all.html', posts=posts)
