@@ -145,9 +145,10 @@ def view_all():
     else:
         app.logger.info('DISPLAYING REVIEWS')
         for post in posts:
-            #name_id = "This review is by " + str(item.user_id)
-            post.username = Accounts.query.filter_by(id=Items.id).first().username
-    return render_template('view_all.html', posts=posts)
+
+            # because the backref is account we can now access its properties
+            post.username = post.accounts.username
+        return render_template('view_all.html', posts=posts)
 
 
 #ROUTE TO VIEW ALL THE RECORDS / TO DO ITEMS
