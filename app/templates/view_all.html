@@ -20,13 +20,20 @@
         <article class="media content-section">
           <div class="media-body">
             <div class="article-metadata">
-                <small class="text-muted">{{ post.date_posted.strftime("%H:%M, %d/%m/%Y") }}
-                <br> Location: {{  post.location_lat, post.location_long }} </small>
+                <small class="text-muted">{{ post.date_posted.strftime("%H:%M, %d/%m/%Y") }} <br>
+                  {% if post.location_lat == "" %}
+                   No location provided
+                  {% else %}
+                   {{  locations}}
+
+                  {% endif %}
+                  </small>
+
             </div>
             <h2><a class="article-title">{{ post.restaurant }}</a> </h2>
             <p class="article-content">{{ post.content }}</p>
             <small class="text-muted">Review Posted by: {{ post.username }} </small>
-    
+
           </div>
         </article>
     {% endfor %}

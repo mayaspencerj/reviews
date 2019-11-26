@@ -113,10 +113,6 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-
-#NOTES:
-#THINK POST_REV AND LOCATION CAN BE COMBINED
-#NEED TO SEND OVER CORDS TO BE ADDED TO RECORD
 @app.route('/post_rev', methods=['GET','POST'])
 @login_required
 def post_rev():
@@ -141,13 +137,18 @@ def view_all():
     if posts == []:
         flash('No reviews to display yet!')
         app.logger.warning("NO REVIEWS DISPLAYED")
-
     else:
         app.logger.info('DISPLAYING REVIEWS')
         for post in posts:
+            print(post.location_lat)
+
             # because the backref is account we can now access its properties
+            if post.location_lat == "":
+                locations = "No location provided"
+            else:
+                locations = "Location: " + post.location_lat + ", " + post.location_long
             post.username = (post.accounts.username).capitalize()
-        return render_template('view_all.html', posts=posts)
+        return render_template('view_all.html', posts=posts, locations=locations)
 
 
 #ROUTE TO VIEW ALL THE RECORDS / TO DO ITEMS
