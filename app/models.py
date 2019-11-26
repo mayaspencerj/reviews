@@ -55,16 +55,16 @@ class Items(db.Model):
 
 
 class Cuisines(db.Model):
-	id = db.Column(db.Integer, primary_key=True)
-	type = db.Column(db.String(120), unique=False, nullable=True)
+    id = db.Column(db.Integer, primary_key=True)
+    type = db.Column(db.String(120), unique=False, nullable=True)
 
 
-	def create_cuisines():
-		cuisines = ['Italian','Indonesian','Turkish','Thai','Spanish','Moroccan','Japanese','Indian','French','Chinese']
-		cuisines_ref = [1,2,3,4,5,6,7,8,9,10]
+    def create_cuisines():
+        cuisines = ['Italian','Indonesian','Turkish','Thai','Spanish','Moroccan','Japanese','Indian','French','Chinese']
+        cuisines_ref = [1,2,3,4,5,6,7,8,9,10]
+        for item in cuisines:
+            for position in cuisines_ref:
+                add_cuisine = AccountsCuisines(position, item)
+                db.session.add(add_cuisine)
+                db.session.commit()
 
-		for item in cuisines:
-		    for position in cuisines_ref:
-		        add_cuisine = AccountsCuisines(position, item)
-		        db.session.add(add_cuisine)
-		        db.session.commit()
