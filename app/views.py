@@ -10,7 +10,7 @@ import sys, json, requests, os, logging
 from logging.handlers import RotatingFileHandler
 from flask_login import current_user, login_user, logout_user, login_required
 from app import login_man
-from flask_bcrypt import Bcrypt
+import bcrypt
 
 @app.errorhandler(404)
 def not_found_error(error):
@@ -33,7 +33,6 @@ def index():
 @app.route("/")
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-
     if not os.path.exists('logs'):
         os.mkdir('logs')
     file_handler = RotatingFileHandler('logs/flask.log', maxBytes=10240,
@@ -49,8 +48,10 @@ def login():
         app.logger.info('SUBMITTED LOGIN DETAILS')
         if form.validate_on_submit():
             user = Accounts.query.filter_by(username=request.form['username']).first()
-            if user is not None and (user.password == request.form['password']):
-            #if user is not None and Bcrypt.check_password_hash(user.password, request.form['password']):
+            entered_password = str(request.form['password']).encode('utf-8')
+            hashed = bcrypt.hashpw(entered_password, bcrypt.gensalt())
+
+            if user is not None and (bcrypt.checkpw(entered_password, user.password)):
                 login_user(user)
                 session['logged_in'] = True
                 session['username'] = request.form['username']
@@ -71,7 +72,10 @@ def register():
     form = RegisterForm()
     app.logger.info('REGISTRATION PAGE LOADED')
     if form.validate_on_submit():
-        password = str(form.password.data)
+        password = str(form.password.data).encode('utf-8')
+        hashed = bcrypt.hashpw(password,bcrypt.gensalt())
+
+
         #print(password)
         #password_hashed = Bcrypt.generate_password_hash(password)
         #print(password_hashed)
@@ -79,7 +83,7 @@ def register():
         user = Accounts(
             username=form.username.data,
             email=form.email.data,
-            password=password)
+            password=hashed)
         db.session.add(user)
         db.session.commit()
         app.logger.info('NEW ACCOUNT CREATED')
@@ -181,15 +185,15 @@ def user_password_change():
     if request.method == 'POST':
         if form.validate_on_submit():
             user = current_user
-            user.password = form.password.data
+            password = str(form.password.data).encode('utf-8')
+            hashed = bcrypt.hashpw(password,bcrypt.gensalt())
+            user.password = hashed
             db.session.commit()
             flash('Password has been updated!', 'success')
             app.logger.info('PASSWORD HAS BEEN UPDATED')
             return redirect(url_for('view_all'))
 
     return render_template('password_change.html', form=form)
-
-
 
 @login_man.user_loader
 def load_user(user_id):

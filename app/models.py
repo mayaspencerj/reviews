@@ -3,6 +3,7 @@ from datetime import datetime
 from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
 
+
 AccountsCuisines = db.Table('AccountsCuisines', db.Model.metadata,
 	db.Column('accounts_id', db.Integer, db.ForeignKey('accounts.id')),
 	db.Column('cuisines_id', db.Integer, db.ForeignKey('cuisines.id'))
@@ -17,6 +18,7 @@ class Accounts(UserMixin, db.Model):
 
     items = db.relationship('Items', backref='accounts', lazy='dynamic')
     cuisines = db.relationship('Cuisines', secondary='AccountsCuisines', backref='Accounts', lazy='dynamic')
+
 
 class Items(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -36,7 +38,7 @@ class Items(db.Model):
 
     def is_authenticated(self):
         """Return True if the user is authenticated."""
-		
+
         return self.authenticated
 
     @property
@@ -67,4 +69,3 @@ class Cuisines(db.Model):
                 add_cuisine = AccountsCuisines(position, item)
                 db.session.add(add_cuisine)
                 db.session.commit()
-
