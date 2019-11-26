@@ -3,6 +3,8 @@
 {% extends "index.html" %}
 {% block content %}
 
+<h1> Displaying your Reviews</h1>
+
   {% with messages = get_flashed_messages() %}
     {% if messages %}
       <ul class=flashes>
@@ -12,6 +14,7 @@
       </ul>
     {% endif %}
   {% endwith %}
+
 
     {% for post in posts %}
         <article class="media content-section">

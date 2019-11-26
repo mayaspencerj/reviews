@@ -147,7 +147,7 @@ def view_all():
         for post in posts:
 
             # because the backref is account we can now access its properties
-            post.username = post.accounts.username
+            post.username = (post.accounts.username).capitalize()
         return render_template('view_all.html', posts=posts)
 
 
@@ -166,7 +166,6 @@ def preferences():
 
     return render_template('preferences.html', cuisine_list=cuisine_list)
 
-
 @app.route("/view_user")
 @login_required
 def view_user():
@@ -174,13 +173,12 @@ def view_user():
     name = session['username'].capitalize()
     posts = Items.query.filter_by(user_id=session['user_id'])
     empty = posts.first()
-    print(empty)
     if empty == None:
         flash('No reviews to display yet!')
         app.logger.warning("NO USER REVIEWS DISPLAYED")
     else:
         app.logger.info('DISPLAYING USER REVIEWS')
-    return render_template('view_all.html', posts=posts,name=name)
+    return render_template('view_user.html', posts=posts)
 
 @app.route("/password_change", methods=["GET", "POST"])
 @login_required
