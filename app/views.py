@@ -38,14 +38,15 @@ def login():
         os.mkdir('logs')
     file_handler = RotatingFileHandler('logs/flask.log', maxBytes=10240,
                                        backupCount=10)
-    file_handler.setFormatter(logging.Formatter(
-        '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
+    file_handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s: %(message)s '))
+        #'%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
     file_handler.setLevel(logging.INFO)
     app.logger.addHandler(file_handler)
     app.logger.info('LOGIN PAGE LOADED')
     error = None
     form = LoginForm(request.form)
     if request.method == 'POST':
+        app.logger.info('SUBMITTED LOGIN DETAILS')
         if form.validate_on_submit():
             user = Accounts.query.filter_by(username=request.form['username']).first()
             if user is not None and (user.password == request.form['password']):
@@ -182,6 +183,13 @@ def view_user():
     app.logger.info('USER VIEWING THEIR REVIEWS')
     name = session['username'].capitalize()
     posts = Items.query.filter_by(user_id=session['user_id'])
+    empty = posts.first()
+    print(empty)
+    if empty == None:
+        flash('No reviews to display yet!')
+        app.logger.warning("NO USER REVIEWS DISPLAYED")
+    else:
+        app.logger.info('DISPLAYING USER REVIEWS')
     return render_template('view_all.html', posts=posts,name=name)
 
 @app.route("/password_change", methods=["GET", "POST"])
@@ -193,7 +201,6 @@ def user_password_change():
         if form.validate_on_submit():
             user = current_user
             user.password = form.password.data
-            #db.session.add(user)
             db.session.commit()
             flash('Password has been updated!', 'success')
             app.logger.info('PASSWORD HAS BEEN UPDATED')
