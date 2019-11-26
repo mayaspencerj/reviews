@@ -1,11 +1,14 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, HiddenField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from .models import db, Items, Accounts
+
 
 class PostForm(FlaskForm):
     restaurant = StringField('Restaurant', validators=[DataRequired(), Length(min=2, max=50)])
     content = StringField('Review', validators=[DataRequired(), Length(min=2, max=10000)])
+    location_lat = HiddenField('location_lat', render_kw={'id': 'input_lat'}) # set html id attribute to
+    location_long = HiddenField('location_long', render_kw={'id': 'input_long'}) # allow value to be set
     submit = SubmitField('Publish Review')
 
 class RegisterForm(FlaskForm):
