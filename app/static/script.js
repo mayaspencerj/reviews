@@ -1,5 +1,4 @@
-// there is a css transition property that smooths color change
-// changed color format to rgb as as uses numbers so easy to make
+// colour change feature
 window.setInterval(function() {
   $(".content-section").css(
     "background-color",
@@ -13,11 +12,11 @@ function getRandomColor(strength = 50) {
   return 255 - (Math.round(Math.random() * 1000) % strength);
 }
 
-// bind the getLocation function to the button being clicked
+// binds the getLocation function to the button being clicked
 $('#import_location_btn').click(getLocation);
 
 function getLocation() {
-  // go no further if not supported
+  // go no further if not supported, i.e in safari
   if (!"geolocation" in navigator) {
     // hide the button and display error message
     $('#import_location_btn').addClass('hidden');
@@ -26,6 +25,7 @@ function getLocation() {
   }
   // disable button whilst loading and set status text
   $('#import_location_btn').attr('disabled', 'disabled');
+  // while developing, was slow getting cordinates, so added spinner to inform user this was the case
   $('#location_status').addClass('text-secondary').text('Getting location data...');
   $('#import_location_btn').html('<i class="fa fa-spinner fa-spin"></i>');
   // disable submit button whilst loading, is always undone
@@ -41,8 +41,6 @@ function getLocation() {
 
       // toFixed take a number but returns a string to preserve 0's
       // which is fine for db but need to cast to int before next use
-      // using the + symbol
-
       // update text status
       $('#location_status').removeClass('text-secondary').text(`Position saved (lat: ${(+lat).toFixed(2)}, long: ${(+long).toFixed(3)})`);
 
@@ -53,6 +51,7 @@ function getLocation() {
       $('#import_location_btn').text('Success');
       $('#submit').removeAttr('disabled');
     },
+    
     function(err) {
       console.log(err);
       // this callback is called if an error occurs eg: user declines

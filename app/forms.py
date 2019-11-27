@@ -1,8 +1,9 @@
+from app import app
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, HiddenField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from .models import db, Items, Accounts
-
+import logging
 
 class PostForm(FlaskForm):
     restaurant = StringField('Restaurant', validators=[DataRequired(), Length(min=2, max=50)])
@@ -21,15 +22,15 @@ class RegisterForm(FlaskForm):
     def validate_username(self, username):
         account = Accounts.query.filter_by(username=username.data).first()
         if account:
+            app.logger.warning("ACCOUNT WITH USERNAME GIVEN ALREADY EXISTS")
             raise ValidationError('An account with that username already exists')
-            app.logger.error("ACCOUNT WITH USERNAME GIVEN ALREADY EXISTS")
-
 
     def validate_email(self, email):
         account = Accounts.query.filter_by(email=email.data).first()
         if account:
+            app.logger.warning("ACCOUNT WITH EMAIL GIVEN ALREADY EXISTS")
             raise ValidationError('An account with that email already exists')
-            app.logger.error("ACCOUNT WITH EMAIL GIVEN ALREADY EXISTS")
+
 
 
 class LoginForm(FlaskForm):

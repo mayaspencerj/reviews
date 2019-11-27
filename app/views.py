@@ -12,6 +12,13 @@ from flask_login import current_user, login_user, logout_user, login_required
 from app import login_man
 import bcrypt
 
+if not os.path.exists('logs'):
+    os.mkdir('logs')
+file_handler = RotatingFileHandler('logs/flask.log', maxBytes=10240, backupCount=10)
+file_handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s: %(message)s '))
+file_handler.setLevel(logging.INFO)
+app.logger.addHandler(file_handler)
+
 @app.errorhandler(404)
 def not_found_error(error):
     return render_template('404.html'), 404
@@ -28,20 +35,14 @@ def unauthorized_callback():
 @app.route('/index')
 @login_required
 def index():
+
     return render_template('index.html')
 
 @app.route("/")
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if not os.path.exists('logs'):
-        os.mkdir('logs')
-    file_handler = RotatingFileHandler('logs/flask.log', maxBytes=10240,
-                                       backupCount=10)
-    file_handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s: %(message)s '))
-        #'%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
-    file_handler.setLevel(logging.INFO)
-    app.logger.addHandler(file_handler)
     app.logger.info('LOGIN PAGE LOADED')
+    app.logger.propagate = False
     error = None
     form = LoginForm(request.form)
     if request.method == 'POST':
@@ -74,12 +75,6 @@ def register():
     if form.validate_on_submit():
         password = str(form.password.data).encode('utf-8')
         hashed = bcrypt.hashpw(password,bcrypt.gensalt())
-
-
-        #print(password)
-        #password_hashed = Bcrypt.generate_password_hash(password)
-        #print(password_hashed)
-
         user = Accounts(
             username=form.username.data,
             email=form.email.data,
@@ -145,7 +140,7 @@ def view_all():
         app.logger.info('DISPLAYING REVIEWS')
         for post in posts:
             post.username = (post.accounts.username).capitalize()
-        return render_template('view_all.html', posts=posts)
+    return render_template('view_all.html', posts=posts)
 
 
 #ROUTE TO VIEW ALL THE RECORDS / TO DO ITEMS
