@@ -48,9 +48,10 @@ def login():
         app.logger.info('SUBMITTED LOGIN DETAILS')
         if form.validate_on_submit():
             user = Accounts.query.filter_by(username=request.form['username']).first()
-            entered_password = str(request.form['password'])
+            entered_password = str(request.form['password']).encode('utf-8')
+            hashed = bcrypt.hashpw(entered_password, bcrypt.gensalt())
 
-            if user is not None and (entered_password == str(user.password)):
+            if user is not None and (bcrypt.checkpw(entered_password, user.password)):
                 login_user(user)
                 session['logged_in'] = True
                 session['username'] = request.form['username']
