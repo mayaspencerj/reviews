@@ -49,10 +49,6 @@ def login():
         if form.validate_on_submit():
             user = Accounts.query.filter_by(username=request.form['username']).first()
             entered_password = str(request.form['password'])
-            print(entered_password)
-            print(str(user.password))
-
-            #hashed_password = bcrypt.hashpw(entered_password, bcrypt.gensalt())
 
             if user is not None and (entered_password == str(user.password)):
                 login_user(user)
