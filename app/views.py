@@ -73,30 +73,33 @@ def login():
 
 @app.route('/register/', methods=['GET', 'POST'])
 def register():
-    form = RegisterForm()
-    app.logger.info('REGISTRATION PAGE LOADED')
-    if form.validate_on_submit():
-        password = str(form.password.data).encode('utf-8')
-        hashed = bcrypt.hashpw(password,bcrypt.gensalt())
-        user = Accounts(
-            username=form.username.data,
-            email=form.email.data,
-            password=hashed)
-        db.session.add(user)
-        db.session.commit()
-        app.logger.info('NEW ACCOUNT CREATED')
+    if current_user.is_authenticated:
+        return redirect(url_for('view_all'))
+    else:
+        form = RegisterForm()
+        app.logger.info('REGISTRATION PAGE LOADED')
+        if form.validate_on_submit():
+            password = str(form.password.data).encode('utf-8')
+            hashed = bcrypt.hashpw(password,bcrypt.gensalt())
+            user = Accounts(
+                username=form.username.data,
+                email=form.email.data,
+                password=hashed)
+            db.session.add(user)
+            db.session.commit()
+            app.logger.info('NEW ACCOUNT CREATED')
 
-        login_user(user)
-        id = int(session['user_id'])
-        choices = request.form.getlist('mycheckbox')
-        if choices == []:
-            pass
-        else:
-            for i in choices:
-                cuisine_choice(id,i)
-            app.logger.info('NEW USER CUISINES STORED')
+            login_user(user)
+            id = int(session['user_id'])
+            choices = request.form.getlist('mycheckbox')
+            if choices == []:
+                pass
+            else:
+                for i in choices:
+                    cuisine_choice(id,i)
+                app.logger.info('NEW USER CUISINES STORED')
 
-        return redirect(url_for('post_rev'))
+            return redirect(url_for('post_rev'))
     return render_template('register.html', form=form)
 
 
