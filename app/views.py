@@ -41,30 +41,33 @@ def index():
 @app.route("/")
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    app.logger.info('LOGIN PAGE LOADED')
-    app.logger.propagate = False
-    error = None
-    form = LoginForm(request.form)
-    if request.method == 'POST':
-        app.logger.info('SUBMITTED LOGIN DETAILS')
-        if form.validate_on_submit():
-            user = Accounts.query.filter_by(username=request.form['username']).first()
-            entered_password = str(request.form['password']).encode('utf-8')
-            hashed = bcrypt.hashpw(entered_password, bcrypt.gensalt())
+    if current_user.is_authenticated:
+        return redirect(url_for('view_all'))
+    else:
+        app.logger.info('LOGIN PAGE LOADED')
+        app.logger.propagate = False
+        error = None
+        form = LoginForm(request.form)
+        if request.method == 'POST':
+            app.logger.info('SUBMITTED LOGIN DETAILS')
+            if form.validate_on_submit():
+                user = Accounts.query.filter_by(username=request.form['username']).first()
+                entered_password = str(request.form['password']).encode('utf-8')
+                hashed = bcrypt.hashpw(entered_password, bcrypt.gensalt())
 
-            if user is not None and (bcrypt.checkpw(entered_password, user.password)):
-                login_user(user)
-                session['logged_in'] = True
-                session['username'] = request.form['username']
-                flash('You were logged in.')
-                app.logger.info('USER LOGGED IN')
-                return redirect(url_for('view_all'))
+                if user is not None and (bcrypt.checkpw(entered_password, user.password)):
+                    login_user(user)
+                    session['logged_in'] = True
+                    session['username'] = request.form['username']
+                    flash('You were logged in.')
+                    app.logger.info('USER LOGGED IN')
+                    return redirect(url_for('view_all'))
+                else:
+                    flash('Invalid username or password.')
+                    app.logger.error("FAILED LOGIN")
             else:
-                flash('Invalid username or password.')
-                app.logger.error("FAILED LOGIN")
-        else:
-            flash('Sorry, no account located')
-            app.logger.warning("NO ACCOUNT FOUND")
+                flash('Sorry, no account located')
+                app.logger.warning("NO ACCOUNT FOUND")
     return render_template('login.html', form=form,error=error)
 
 
