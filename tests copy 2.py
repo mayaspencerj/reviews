@@ -18,18 +18,24 @@ class TestCase(unittest.TestCase):
         db.session.remove()
         db.drop_all()
 
-    def test_user_profile_page(self):
+    def test_change_password_page(self):
         self.app.get('/register', follow_redirects=True)
-        self.register('patkennedy79@gmail.com', 'FlaskIsAwesome', 'FlaskIsAwesome')
-        response = self.app.get('/user_profile')
+        self.register('pat','patkennedy79@gmail.com','passwordworks')
+        response = self.app.get('/password_change')
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'Email Address', response.data)
-        self.assertIn(b'Account Actions', response.data)
-        self.assertIn(b'Statistics', response.data)
-        self.assertIn(b'First time logged in. Welcome!', response.data)
+        self.assertIn(b'Password Change', response.data)
      
-     
+    def test_change_password(self):
+        self.app.get('/register', follow_redirects=True)
+        self.register('pat','patkennedy79@gmail.com','passwordworks')
+        response = self.app.post('/user_password_change', data=dict(password='MyNewPassword1234'), follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Password has been updated!', response.data)
+        self.assertIn(b'User Profile', response.data)
 
+        
+        
+  
 if __name__ == '__main__':
     unittest.main()
     
