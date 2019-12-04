@@ -15,23 +15,17 @@ class TestCase(unittest.TestCase):
         db.create_all()
 
     def test_tearDown(self):
-        db.session.remove()
-        db.drop_all()
+        pass
+       # db.session.remove()
+        #db.drop_all()
 
-    def test_make_unique_nickname(self):
-        u = Accounts(username='rebs', email='rebs@example.com',password="helpme")
+
+    def test_users_can_login(self):
+        u = Accounts(username='Joe', email='joe@joes.com', password='12345')
         db.session.add(u)
         db.session.commit()
-        nickname = Accounts.make_unique_nickname('rebs')
-        assert nickname != 'rebs'
-        u = Accounts(username=nickname, email='rebecca@example.com', password="helpme")
-        db.session.add(u)
-        db.session.commit()
-        nickname2 = Accounts.make_unique_nickname('rebs')
-        assert nickname2 != 'rebs'
-        assert nickname2 != nickname
-        
-        
+
+
   
 if __name__ == '__main__':
     unittest.main()
