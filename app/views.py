@@ -164,7 +164,7 @@ def preferences():
 
     return render_template('preferences.html', cuisine_list=cuisine_list)
 
-@app.route("/view_user")
+@app.route("/view_user",  methods=["GET", "POST"])
 @login_required
 def view_user():
     app.logger.info('USER VIEWING THEIR REVIEWS')
