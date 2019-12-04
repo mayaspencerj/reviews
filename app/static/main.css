@@ -1,0 +1,51 @@
+body {
+  background: #61b2e3;
+  color: #333333;
+  margin-top: 5rem;
+  padding: 60px 0;
+  /* my pink background colour */
+  background-color: rgb(238, 130, 238);
+}
+
+.content-section {
+  background: #ffffff;
+  padding: 10px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  margin-bottom: 20px;
+  /* smooths the bg-c value at same speed the it changes
+     however it's a property with lots of browser prefixes :( */
+  transition: background-color 2s ease;
+  -webkit-transition: background-color 2s ease;
+  -moz-transition: background-color 2s ease;
+  -o-transition: background-color 2s ease;
+  -ms-transition: background-color 2s ease;
+}
+
+/* the location elements are changed by the script a lot so put static values here */
+.location-holder {
+  margin-bottom: 10px;
+}
+
+.location-holder * {
+  display: inline-block;
+}
+
+.location-holder p {
+  font-size: 0.65em;
+  margin: 4px 0 0 4px;
+}
+
+/* styling removes the bullet points from the menu list */
+ul {
+  list-style-type: none;
+}
+
+.navbar {
+  background-color: pink;
+}
+
+.error {
+  color: red;
+  font-size: 0.8em;
+}

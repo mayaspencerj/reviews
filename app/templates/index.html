@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <!-- meta tags declaring character encoding and scaling -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <!-- link Bootstrap CSS and list to main.css file -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+      <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <title>Your Restaurant Review Program!</title>
+  </head>
+  <body>
+
+      <!--Navbar style strip at top with title-->
+      <header class="site-header">
+      <nav class="navbar navbar-dark bg-primary fixed-top bg-danger">
+        <span class="navbar-brand mb-0 h1"> Review Site!
+          {% if current_user.is_authenticated %}
+          Hi {{ current_user.username }} you are logged in!
+          {% else %}
+          You are not logged in! Access is restricted.
+          {% endif %}
+        </span>
+      </nav>
+      </header>
+      <main class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="content-section">
+              <h3> Restaurant Review Site</h3>
+              <p class='text-muted'>Welcome to your review site! </p>
+
+
+                <ul class="list-group">
+                  <!-- items listed in the left hand menu-->
+                  <li><a class="nav-item nav-link" href="/login">Login</a> </li>
+                  <li><a class="nav-item nav-link" href="/register">Create an Account</a></li>
+                  <li><a class="nav-item nav-link" href="/password_change">Change Password!</a></li>
+                  <li><a class="nav-item nav-link" href="/preferences">Your Cuisines</a></li>
+                  <li><a class="nav-item nav-link" href="/post_rev">Post a Review</a></li>
+                  <li><a class="nav-item nav-link" href="/view_all">View all Reviews</a></li>
+                  <li><a class="nav-item nav-link" href="/view_user">View your Reviews</a></li>
+                  <li><a class="nav-item nav-link" href="/logout" >Logout</a></li>
+                </ul>
+
+            </div>
+          </div>
+          <div class="col-md-8">
+            {% block content %}{% endblock %}
+          </div>
+
+        </div>
+      </main>
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+      <script type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>
+  </body>
+</html>

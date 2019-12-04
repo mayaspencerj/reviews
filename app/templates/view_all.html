@@ -1,0 +1,38 @@
+<!--HTML FILE TO VIEW THE COMPLETED TO DO ITEMS -->
+<!-- LISTS THOSE WITH THE BOOLEAN FIELD VALUE OF 0 -->
+
+{% extends "index.html" %}
+{% block content %}
+
+<h1> Displaying all Reviews</h1>
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul class=flashes>
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+    {% for post in posts %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+                <small class="text-muted">{{ post.date_posted.strftime("%H:%M, %d/%m/%Y") }} <br>
+                  {% if post.location_lat == "" %}
+                   No location provided!
+                  {% else %}
+                   Location: {{  post.location_lat, post.location_long }}
+                  {% endif %}
+                  </small>
+            </div>
+            <h2><a class="article-title">{{ post.restaurant }}</a> </h2>
+            <p class="article-content">{{ post.content }}</p>
+            <small class="text-muted">Review Posted by: {{ post.username }} </small>
+
+          </div>
+        </article>
+    {% endfor %}
+{% endblock content %}
