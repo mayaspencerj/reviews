@@ -15,15 +15,27 @@ class TestCase(unittest.TestCase):
         db.create_all()
 
     def test_tearDown(self):
+        db.session.remove()
+        db.drop_all()
         pass
-       # db.session.remove()
-        #db.drop_all()
 
 
     def test_users_can_login(self):
         u = Accounts(username='Joe', email='joe@joes.com', password='12345')
         db.session.add(u)
         db.session.commit()
+
+        with self.test_client:
+            response = self.client.post("/login", data={"username": "Joe", "password": "12345"})
+            self.assert_redirects(response, url_for("view_all"))
+            self.assertTrue(current_user.name == "Joe")
+            self.assertFalse(current_user.is_anonymous())
+
+            
+       # response = self.client.post(url_for('login'),
+                                  #  data={'email': 'joe@joes.com', 'password': '12345'})
+
+        #self.assert_redirects(response, url_for('view_all'))
 
 
   
