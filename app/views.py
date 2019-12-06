@@ -35,13 +35,13 @@ def unauthorized_callback():
 @app.route('/index')
 @login_required
 def index():
-
     return render_template('index.html')
 
 @app.route("/")
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
+        app.logger.warning('LOGIN PAGE DENIED ACCESS AS LOGGED IN ALREADY')
         return redirect(url_for('view_all'))
     else:
         app.logger.info('LOGIN PAGE LOADED')
