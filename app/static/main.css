@@ -13,8 +13,6 @@ body {
   border: 1px solid #dddddd;
   border-radius: 3px;
   margin-bottom: 20px;
-  /* smooths the bg-c value at same speed the it changes
-     however it's a property with lots of browser prefixes :( */
   transition: background-color 2s ease;
   -webkit-transition: background-color 2s ease;
   -moz-transition: background-color 2s ease;
@@ -22,7 +20,7 @@ body {
   -ms-transition: background-color 2s ease;
 }
 
-/* the location elements are changed by the script a lot so put static values here */
+/* location elements are changed by the js script so static values are here */
 .location-holder {
   margin-bottom: 10px;
 }
@@ -36,7 +34,7 @@ body {
   margin: 4px 0 0 4px;
 }
 
-/* styling removes the bullet points from the menu list */
+/* styling removes the bullet points from the menu list on left side */
 ul {
   list-style-type: none;
 }
