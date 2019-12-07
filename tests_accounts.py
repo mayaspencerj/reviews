@@ -3,9 +3,9 @@ import os, sys
 import unittest
 basedir = os.path.abspath(os.path.dirname(__file__)) #obtains parent directory
 from app import app, db
-from app.models import Accounts, Items
+from app.models import Accounts
 import bcrypt
-from datetime import datetime
+
 
 class TestCase(unittest.TestCase):
     #set up unit testing and create db
@@ -43,19 +43,7 @@ class TestCase(unittest.TestCase):
         self.no_username = Accounts(username=self.username, email=self.email)
 
 
-        #SET UP FOR REVIEWS TESTING
-        self.restaurant = 'mexican diner'
-        self.content = 'Food was very spicy! Check with the waitress how spicy your dish is beforehand!'
-        self.both_cords = '-1.346'
-        self.userID = 1
-        self.basic_post = Items(restaurant=self.restaurant, content=self.content, location_lat=self.both_cords, location_long=self.both_cords, user_id=self.userID)
-        self.post_no_rest = Items(content=self.content, location_lat=self.both_cords, location_long=self.both_cords, user_id=self.userID)
-        self.post_no_content = Items(restaurant=self.restaurant, location_lat=self.both_cords, location_long=self.both_cords, user_id=self.userID)
-        self.post_no_cords = Items(restaurant=self.restaurant, content=self.content, user_id=self.userID)
-        self.post_no_userid= Items(restaurant=self.restaurant, content=self.content, location_lat=self.both_cords, location_long=self.both_cords)
-
-
-
+    
 
     #delete all records in db
     def test_tearDown(self):
@@ -140,71 +128,6 @@ class TestCase(unittest.TestCase):
         db.session.add(self.account_string_email)
         db.session.commit()
         self.assertTrue(False)
-
-
-
-    #check reviews db can add records
-    #arguably a redundant test
-    def test_add_item(self):
-        db.session.add(self.basic_post)
-        db.session.commit()
-        self.assertTrue(True)
-
-    #test restaurant cannot be null
-    @unittest.expectedFailure
-    def test_null_restaurant(self):
-        db.session.add(self.post_no_rest)
-        db.session.commit()
-        self.assertTrue(False)
-
-
-    #test content cannot be null
-    @unittest.expectedFailure
-    def test_null_content(self):
-        db.session.add(self.post_no_content)
-        db.session.commit()
-        self.assertTrue(False)
-
-
-    #test content cannot be duplicated
-
-    #test date_posted cannot be null
-
-    #test user_id cannot be null
-
-    #test content cannot be duplicated
-
-    #test location fields can be null
-    def test_null_location(self):
-        db.session.add(self.post_no_cords)
-        db.session.commit()
-        self.assertTrue(True)
-
-
-
-    #test restaurant cannot exceed 20 characters
-
-    #test content cannot exceed 120 characters
-
-    #test location fields cannot exceed 120 characters
-
-    #test restaurant cannot be an integer
-
-    #test content cannot be an integer
-
-    #test location fields cannot be an integer
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
