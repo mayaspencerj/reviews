@@ -18,7 +18,6 @@ class TestCase(unittest.TestCase):
         db.create_all()
 
         #SET UP FOR REVIEWS TESTING
-
         self.content = 'Food was very spicy! Check with the waitress how spicy your dish is beforehand!'
         self.content2 = 'Great cheesy fries'
         self.restaurant = "mexican diner"
@@ -90,14 +89,12 @@ class TestCase(unittest.TestCase):
         db.session.commit()
         self.assertTrue(False)
 
-
     #test location fields cannot exceed 120 characters
     @unittest.expectedFailure
     def test_length_location(self):
         db.session.add(self.post_length_location)
         db.session.commit()
         self.assertTrue(False)
-
 
     #test restaurant cannot be an integer
     @unittest.expectedFailure
@@ -119,20 +116,6 @@ class TestCase(unittest.TestCase):
         db.session.add(self.post_int_location)
         db.session.commit()
         self.assertTrue(False)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 if __name__ == '__main__':

@@ -9,7 +9,7 @@ AccountsCuisines = db.Table('AccountsCuisines', db.Model.metadata,
 	db.Column('cuisines_id', db.Integer, db.ForeignKey('cuisines.id'))
 	)
 
-#DECLARING MODEL, MY ITEMS TABLE TO HOLD TO DO ITEMS
+#model to hold my accounts
 class Accounts(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(30), unique=True, nullable=False)
@@ -19,7 +19,7 @@ class Accounts(UserMixin, db.Model):
     items = db.relationship('Items', backref='accounts', lazy='dynamic')
     cuisines = db.relationship('Cuisines', secondary='AccountsCuisines', backref='Accounts', lazy='dynamic')
 
-
+#model to hold my items (reviews)
 class Items(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     restaurant = db.Column(db.String(20), unique=False, nullable=False)
@@ -29,6 +29,7 @@ class Items(db.Model):
     location_lat = db.Column(db.String(120), unique=False, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('accounts.id'), nullable=False)
 
+
     def __init__(self,restaurant,content,location_long, location_lat,user_id):
         self.restaurant = restaurant
         self.content = content
@@ -37,8 +38,7 @@ class Items(db.Model):
         self.user_id = user_id
 
     def is_authenticated(self):
-        """Return True if the user is authenticated."""
-
+        #Return True if the user is authenticated
         return self.authenticated
 
     @property
@@ -55,11 +55,11 @@ class Items(db.Model):
         except NameError:
             return str(self.id)
 
-
+#model to hold my cuisines
+#this is prepopulated
 class Cuisines(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     type = db.Column(db.String(120), unique=False, nullable=True)
-
 
     def create_cuisines():
         cuisines = ['Italian','Indonesian','Turkish','Thai','Spanish','Moroccan','Japanese','Indian','French','Chinese']

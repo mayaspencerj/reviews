@@ -1,4 +1,4 @@
-// colour change feature
+// my colour change feature
 window.setInterval(function() {
   $(".content-section").css(
     "background-color",
@@ -17,6 +17,7 @@ $('#import_location_btn').click(getLocation);
 
 function getLocation() {
   // go no further if not supported, i.e in safari
+  // however this problem has been resolved in my deployed version as explained in my evaluation
   if (!"geolocation" in navigator) {
     // hide the button and display error message
     $('#import_location_btn').addClass('hidden');
@@ -25,10 +26,12 @@ function getLocation() {
   }
   // disable button whilst loading and set status text
   $('#import_location_btn').attr('disabled', 'disabled');
-  // while developing, was slow getting cordinates, so added spinner to inform user this was the case
+
+  // while developing, feature was slow getting cordinates
+  // added spinner image to inform user it was processing
   $('#location_status').addClass('text-secondary').text('Getting location data...');
   $('#import_location_btn').html('<i class="fa fa-spinner fa-spin"></i>');
-  // disable submit button whilst loading, is always undone
+  // disable submit button whilst loading
   $('#submit').attr('disabled', 'disabled');
 
   // get current location and set callbacks to handle response
@@ -39,9 +42,7 @@ function getLocation() {
       const lat = position.coords.latitude.toFixed(6);
       const long = position.coords.longitude.toFixed(6);
 
-      // toFixed take a number but returns a string to preserve 0's
-      // which is fine for db but need to cast to int before next use
-      // update text status
+      // toFixed take a number but returns a string to preserve 0's - must be string in database also
       $('#location_status').removeClass('text-secondary').text(`Position saved (lat: ${(+lat).toFixed(2)}, long: ${(+long).toFixed(3)})`);
 
       // set hidden form fields to retrieved values so they're submitted with the form.
@@ -51,11 +52,11 @@ function getLocation() {
       $('#import_location_btn').text('Success');
       $('#submit').removeAttr('disabled');
     },
-    
+
     function(err) {
       console.log(err);
-      // this callback is called if an error occurs eg: user declines
-      // permission etc.. hide the button and display error message
+      // this callback is called if an error occurs eg: user declines permission
+      // hide the button and display error message
       $('#import_location_btn').addClass('d-none');
       $('#location_status').addClass('text-error').text('Geolocation unavailable.');
       $('#submit').removeAttr('disabled');
